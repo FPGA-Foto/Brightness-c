@@ -5,22 +5,35 @@
 
 #include <wand/magick_wand.h>
 
+int main() {
+	test_wand();
+}
+
 void test_wand(void)
 {
-	MagickWand *mw = NULL;
+	MagickWand *magick_wand = NULL;
+	// Set default fuzz to zero (see below)
+	double fuzz = 0.;
+	PixelWand *target;
 
 	MagickWandGenesis();
 
-	/* Create a wand */
-	mw = NewMagickWand();
+	magick_wand = NewMagickWand();
+	MagickReadImage(magick_wand,"image.jpg");
 
-	/* Read the input image */
-	MagickReadImage(mw,"image:");
-	/* write it */
-	MagickWriteImage(mw,"image.jpg");
+	// Set up the pixelwand containing the colour to be "targeted"
+	// by transparency
+	target = NewPixelWand();
+	PixelSetColor(target, "white");
+	
+	Image * img = GetImageFromMagickWand(magick_wand);
 
-	/* Tidy up */
-	if (mw) mw = DestroyMagickWand(mw);
-
+	BrightnessContrastImage(img, 50.0, 0.0);
+	
+	MagickWriteImage(NewMagickWandFromImage(img), "logo_white.png");
+	
+	/* Clean up */
+	if (magick_wand) magick_wand = DestroyMagickWand(magick_wand);
+	if (target) target = DestroyPixelWand(target);
 	MagickWandTerminus();
 }
