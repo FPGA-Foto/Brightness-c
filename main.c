@@ -35,42 +35,41 @@ typedef struct tagBITMAPINFOHEADER
 
 #pragma pack(pop)
 
-unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader) {
-    FILE *filePtr; //our file pointer
-    BITMAPFILEHEADER bitmapFileHeader; //our bitmap file header
+unsigned char *LoadBitmapFile(FILE * filePtr, BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER * bitmapFileHeader) {
+    // FILE *filePtr; //our file pointer
+    // BITMAPFILEHEADER bitmapFileHeader; //our bitmap file header
     unsigned char *bitmapImage;  //store image data
     int imageIdx = 0;  //image index counter
     unsigned char tempRGB;  //our swap variable
 
-    //open filename in read binary mode
-    filePtr = fopen(filename,"r");
-    if (filePtr == NULL) {
-        return NULL;
-    }
+    // Open filename in read binary mode
+    // filePtr = fopen(filename, "r");
+    // if (filePtr == NULL) {
+    //     return NULL;
+    // }
 
     // Read the bitmap file header
-    int fileType[10];
-    fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
+    // fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
 
     // printf("%d\n", bitmapFileHeader.bfSize);
 
     // Verify that this is a bmp file by check bitmap id
-    if (bitmapFileHeader.bfType != 0x4D42) {
-        fclose(filePtr);
-        printf("%s\n", "Error: Not a BMP file.");
-        return NULL;
-    }
+    // if (bitmapFileHeader->bfType != 0x4D42) {
+    //     fclose(filePtr);
+    //     printf("%s\n", "Error: Not a BMP file.");
+    //     return NULL;
+    // }
 
     printf("%s\n", "File Header:");
-    printf("Type:  %x\n", bitmapFileHeader.bfType);
-    printf("Size:  %d\n", bitmapFileHeader.bfSize);
-    printf("Offbits:  %d\n", bitmapFileHeader.bfOffBits);
+    printf("Type:  %x\n", bitmapFileHeader->bfType);
+    printf("Size:  %d\n", bitmapFileHeader->bfSize);
+    printf("Offbits:  %d\n", bitmapFileHeader->bfOffBits);
 
     // Read the bitmap info header
     fread(bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, filePtr);
 
     // Move file point to the beginning of bitmap data
-    fseek(filePtr, bitmapFileHeader.bfOffBits, SEEK_SET);
+    fseek(filePtr, bitmapFileHeader->bfOffBits, SEEK_SET);
 
     printf("\n%s\n", "Info Header:");
     printf("Size: %d\n", bitmapInfoHeader->biSize);
@@ -99,11 +98,11 @@ unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
     }
 
     // Swap the r and b values to get RGB (bitmap is BGR)
-    for (imageIdx = 0; imageIdx < bitmapInfoHeader->biSizeImage; imageIdx += 3) {
-        tempRGB = bitmapImage[imageIdx];
-        bitmapImage[imageIdx] = bitmapImage[imageIdx + 2];
-        bitmapImage[imageIdx + 2] = tempRGB;
-    }
+    // for (imageIdx = 0; imageIdx < bitmapInfoHeader->biSizeImage; imageIdx += 3) {
+    //     tempRGB = bitmapImage[imageIdx];
+    //     bitmapImage[imageIdx] = bitmapImage[imageIdx + 2];
+    //     bitmapImage[imageIdx + 2] = tempRGB;
+    // }
 
     // Close file and return bitmap image data
     fclose(filePtr);
@@ -112,9 +111,24 @@ unsigned char *LoadBitmapFile(char *filename, BITMAPINFOHEADER *bitmapInfoHeader
 }
 
 void main() {
+    FILE *filePtr; //our file pointer
+    filePtr = fopen("image.bmp", "r");
+    if (filePtr == NULL) {
+        return;
+    }
+
+    BITMAPFILEHEADER bitmapFileHeader; //our bitmap file header
+    fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
+
+    if (bitmapFileHeader.bfType != 0x4D42) {
+        fclose(filePtr);
+        printf("%s\n", "Error: Not a BMP file.");
+        return;
+    }
+
     BITMAPINFOHEADER bitmapInfoHeader;
     unsigned char *bitmapData;
-    bitmapData = LoadBitmapFile("image.bmp", &bitmapInfoHeader);
+    bitmapData = LoadBitmapFile(filePtr, &bitmapInfoHeader, &bitmapFileHeader);
 
     if (bitmapData == NULL) {
         printf("%s\n", "Error: Data is empty.");
@@ -122,12 +136,27 @@ void main() {
     }
 
     int i;
-    for (i = 0; i < bitmapInfoHeader.biSizeImage/10; i += 4) {
+    for (i = 0; i < bitmapInfoHeader.biSizeImage; i += 3) {
         int j;
-        for (j = 0; j < 2; j++) {
-            printf("%x", bitmapData[i+j]);
+        for (j = 0; j < 3; j++) {
+            int pixel = bitmapData[i+j], modifier = -50;
+            
+            if (pixel + modifier > 255) {
+                bitmapData[i+j] = 255;
+            }
+            else if (pixel + modifier < 0) {
+                bitmapData[i+j] = 0;                
+            }
+            else {
+                bitmapData[i+j] += modifier;
+            }
         }
-        printf("%s", " ");
     }
+
+    FILE * writeFile = fopen("out.bmp", "w");
+
+    fwrite(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, writeFile);
+    fwrite(&bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, writeFile);
+    fwrite(bitmapData, bitmapInfoHeader.biSizeImage, 1, writeFile);
 
 }

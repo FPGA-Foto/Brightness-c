@@ -1,2 +1,2 @@
 all:
-	gcc main.c `pkg-config --cflags --libs MagickWand`
+	gcc main.c -o bmp
