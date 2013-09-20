@@ -20,45 +20,25 @@ typedef struct tagBITMAPFILEHEADER
 
 typedef struct tagBITMAPINFOHEADER
 {
-    int biSize                  :4*BYTE;  //specifies the number of bytes required by the struct
-    long int biWidth            :4*BYTE;  //specifies width in pixels
-    long int biHeight           :4*BYTE;  //species height in pixels
+    int biSize                  :4*BYTE; //specifies the number of bytes required by the struct
+    long int biWidth            :4*BYTE; //specifies width in pixels
+    long int biHeight           :4*BYTE; //species height in pixels
     int biPlanes                :2*BYTE; //specifies the number of color planes, must be 1
     int biBitCount              :2*BYTE; //specifies the number of bit per pixel
-    int biCompression           :4*BYTE;//spcifies the type of compression
-    int biSizeImage             :4*BYTE;  //size of image in bytes
-    long int biXPelsPerMeter    :4*BYTE;  //number of pixels per meter in x axis
-    long int biYPelsPerMeter    :4*BYTE;  //number of pixels per meter in y axis
-    int biClrUsed               :4*BYTE;  //number of colors used by th ebitmap
-    int biClrImportant          :4*BYTE;  //number of colors that are important
+    int biCompression           :4*BYTE; //spcifies the type of compression
+    int biSizeImage             :4*BYTE; //size of image in bytes
+    long int biXPelsPerMeter    :4*BYTE; //number of pixels per meter in x axis
+    long int biYPelsPerMeter    :4*BYTE; //number of pixels per meter in y axis
+    int biClrUsed               :4*BYTE; //number of colors used by th ebitmap
+    int biClrImportant          :4*BYTE; //number of colors that are important
 } BITMAPINFOHEADER;
 
 #pragma pack(pop)
 
 unsigned char *LoadBitmapFile(FILE * filePtr, BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER * bitmapFileHeader) {
-    // FILE *filePtr; //our file pointer
-    // BITMAPFILEHEADER bitmapFileHeader; //our bitmap file header
     unsigned char *bitmapImage;  //store image data
     int imageIdx = 0;  //image index counter
     unsigned char tempRGB;  //our swap variable
-
-    // Open filename in read binary mode
-    // filePtr = fopen(filename, "r");
-    // if (filePtr == NULL) {
-    //     return NULL;
-    // }
-
-    // Read the bitmap file header
-    // fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
-
-    // printf("%d\n", bitmapFileHeader.bfSize);
-
-    // Verify that this is a bmp file by check bitmap id
-    // if (bitmapFileHeader->bfType != 0x4D42) {
-    //     fclose(filePtr);
-    //     printf("%s\n", "Error: Not a BMP file.");
-    //     return NULL;
-    // }
 
     printf("%s\n", "File Header:");
     printf("Type:  %x\n", bitmapFileHeader->bfType);
@@ -96,13 +76,6 @@ unsigned char *LoadBitmapFile(FILE * filePtr, BITMAPINFOHEADER *bitmapInfoHeader
         fclose(filePtr);
         return NULL;
     }
-
-    // Swap the r and b values to get RGB (bitmap is BGR)
-    // for (imageIdx = 0; imageIdx < bitmapInfoHeader->biSizeImage; imageIdx += 3) {
-    //     tempRGB = bitmapImage[imageIdx];
-    //     bitmapImage[imageIdx] = bitmapImage[imageIdx + 2];
-    //     bitmapImage[imageIdx + 2] = tempRGB;
-    // }
 
     // Close file and return bitmap image data
     fclose(filePtr);
