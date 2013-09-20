@@ -7,10 +7,10 @@
 
 typedef struct tagBITMAPFILEHEADER
 {
-    short int bfType        :2*BYTE; //specifies the file type
+    short bfType        :2*BYTE; //specifies the file type
     int bfSize              :4*BYTE; //specifies the size in bytes of the bitmap file
-    short int bfReserved1   :2*BYTE; //reserved; must be 0
-    short int bfReserved2   :2*BYTE; //reserved; must be 0
+    short bfReserved1   :2*BYTE; //reserved; must be 0
+    short bfReserved2   :2*BYTE; //reserved; must be 0
     int bfOffBits           :4*BYTE; //species the offset in bytes from the bitmapfileheader to the bitmap bits
 } BITMAPFILEHEADER;
 
@@ -23,8 +23,8 @@ typedef struct tagBITMAPINFOHEADER
     int biSize                  :4*BYTE; //specifies the number of bytes required by the struct
     int biWidth                 :4*BYTE; //specifies width in pixels
     int biHeight                :4*BYTE; //species height in pixels
-    short int biPlanes          :2*BYTE; //specifies the number of color planes, must be 1
-    short int biBitCount        :2*BYTE; //specifies the number of bit per pixel
+    short biPlanes          :2*BYTE; //specifies the number of color planes, must be 1
+    short biBitCount        :2*BYTE; //specifies the number of bit per pixel
     int biCompression           :4*BYTE; //spcifies the type of compression
     int biSizeImage             :4*BYTE; //size of image in bytes
     int biXPelsPerMeter         :4*BYTE; //number of pixels per meter in x axis
@@ -126,7 +126,7 @@ void main() {
         }
     }
 
-    FILE * writeFile = fopen("out.bmp", "w");
+    FILE * writeFile = fopen("out.bmp", "wb");
 
     fwrite(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, writeFile);
     fwrite(&bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, writeFile);
