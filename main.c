@@ -7,11 +7,11 @@
 
 typedef struct tagBITMAPFILEHEADER
 {
-    int bfType      :2*BYTE; //specifies the file type
-    int bfSize      :4*BYTE; //specifies the size in bytes of the bitmap file
-    int bfReserved1 :2*BYTE; //reserved; must be 0
-    int bfReserved2 :2*BYTE; //reserved; must be 0
-    int bfOffBits   :4*BYTE; //species the offset in bytes from the bitmapfileheader to the bitmap bits
+    short int bfType        :2*BYTE; //specifies the file type
+    int bfSize              :4*BYTE; //specifies the size in bytes of the bitmap file
+    short int bfReserved1   :2*BYTE; //reserved; must be 0
+    short int bfReserved2   :2*BYTE; //reserved; must be 0
+    int bfOffBits           :4*BYTE; //species the offset in bytes from the bitmapfileheader to the bitmap bits
 } BITMAPFILEHEADER;
 
 #pragma pack(pop)
@@ -21,14 +21,14 @@ typedef struct tagBITMAPFILEHEADER
 typedef struct tagBITMAPINFOHEADER
 {
     int biSize                  :4*BYTE; //specifies the number of bytes required by the struct
-    long int biWidth            :4*BYTE; //specifies width in pixels
-    long int biHeight           :4*BYTE; //species height in pixels
-    int biPlanes                :2*BYTE; //specifies the number of color planes, must be 1
-    int biBitCount              :2*BYTE; //specifies the number of bit per pixel
+    int biWidth                 :4*BYTE; //specifies width in pixels
+    int biHeight                :4*BYTE; //species height in pixels
+    short int biPlanes          :2*BYTE; //specifies the number of color planes, must be 1
+    short int biBitCount        :2*BYTE; //specifies the number of bit per pixel
     int biCompression           :4*BYTE; //spcifies the type of compression
     int biSizeImage             :4*BYTE; //size of image in bytes
-    long int biXPelsPerMeter    :4*BYTE; //number of pixels per meter in x axis
-    long int biYPelsPerMeter    :4*BYTE; //number of pixels per meter in y axis
+    int biXPelsPerMeter         :4*BYTE; //number of pixels per meter in x axis
+    int biYPelsPerMeter         :4*BYTE; //number of pixels per meter in y axis
     int biClrUsed               :4*BYTE; //number of colors used by th ebitmap
     int biClrImportant          :4*BYTE; //number of colors that are important
 } BITMAPINFOHEADER;
@@ -85,7 +85,7 @@ unsigned char *LoadBitmapFile(FILE * filePtr, BITMAPINFOHEADER *bitmapInfoHeader
 
 void main() {
     FILE *filePtr; //our file pointer
-    filePtr = fopen("image.bmp", "r");
+    filePtr = fopen("image.bmp", "rb");
     if (filePtr == NULL) {
         return;
     }
