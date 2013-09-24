@@ -23,8 +23,8 @@ typedef struct tagBITMAPINFOHEADER
     int biSize                  :4*BYTE; //specifies the number of bytes required by the struct
     int biWidth                 :4*BYTE; //specifies width in pixels
     int biHeight                :4*BYTE; //species height in pixels
-    short biPlanes          :2*BYTE; //specifies the number of color planes, must be 1
-    short biBitCount        :2*BYTE; //specifies the number of bit per pixel
+    short biPlanes              :2*BYTE; //specifies the number of color planes, must be 1
+    short biBitCount            :2*BYTE; //specifies the number of bit per pixel
     int biCompression           :4*BYTE; //spcifies the type of compression
     int biSizeImage             :4*BYTE; //size of image in bytes
     int biXPelsPerMeter         :4*BYTE; //number of pixels per meter in x axis
@@ -83,6 +83,40 @@ unsigned char *LoadBitmapFile(FILE * filePtr, BITMAPINFOHEADER *bitmapInfoHeader
     return bitmapImage;
 }
 
+void setBrightness(unsigned char * data, int value, int imageSize) {
+    int i;
+    for (i = 0; i < imageSize; i++) {
+
+        if (data[i] + value > 255) {
+            data[i] = 255;
+        }
+        else if (data[i] + value < 0) {
+            data[i] = 0;                
+        }
+        else {
+            data[i] += value;
+        }
+    }
+}
+
+void setContrast(unsigned char * data, int value, int imageSize) {
+    int i;
+    for (i = 0; i < imageSize; i++) {
+        int factor = (259 * (value + 255)) / (255 * (259 - value));
+        int color = factor * (data[i] - 128) + 128;    
+
+        if (color > 255) {
+            data[i] = 255;
+        }
+        else if (color < 0) {
+            data[i] = 0;                
+        }
+        else {
+            data[i] = color;
+        }
+    }
+}
+
 void main() {
     FILE *filePtr; //our file pointer
     filePtr = fopen("image.bmp", "rb");
@@ -108,27 +142,8 @@ void main() {
         return;
     }
 
-
-
-	/*
-    int i;
-    for (i = 0; i < bitmapInfoHeader.biSizeImage; i += 3) {
-        int j;
-        for (j = 0; j < 3; j++) {
-            int pixel = bitmapData[i+j], modifier = -50;
-            
-            if (pixel + modifier > 255) {
-                bitmapData[i+j] = 255;
-            }
-            else if (pixel + modifier < 0) {
-                bitmapData[i+j] = 0;                
-            }
-            else {
-                bitmapData[i+j] += modifier;
-            }
-        }
-    }
-	*/
+    setBrightness(bitmapData, 50, bitmapInfoHeader.biSizeImage);
+    setContrast(bitmapData, 180, bitmapInfoHeader.biSizeImage);
 
     FILE * writeFile = fopen("out.bmp", "wb");
 
