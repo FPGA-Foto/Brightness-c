@@ -108,6 +108,9 @@ void main() {
         return;
     }
 
+
+
+	/*
     int i;
     for (i = 0; i < bitmapInfoHeader.biSizeImage; i += 3) {
         int j;
@@ -125,6 +128,7 @@ void main() {
             }
         }
     }
+	*/
 
     FILE * writeFile = fopen("out.bmp", "wb");
 
