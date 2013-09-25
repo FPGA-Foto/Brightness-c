@@ -1,2 +1,2 @@
 all:
-	gcc main.c -o bmp
+	gcc main.c -lm -o bmp

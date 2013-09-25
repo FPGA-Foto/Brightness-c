@@ -1,7 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #define BYTE 8
+
+#ifndef max
+    #define max( a, b ) ( ((a) > (b)) ? (a) : (b) )
+#endif
+
+#ifndef min
+    #define min( a, b ) ( ((a) < (b)) ? (a) : (b) )
+#endif
 
 #pragma pack(push, 1)
 
@@ -117,6 +126,122 @@ void setContrast(unsigned char * data, int value, int imageSize) {
     }
 }
 
+float * rgbToHsl(float * red, float * green, float * blue) {
+    *red /= 255, *green /= 255, *blue /= 255;
+    float max = fmax(fmax(*red, *green), *blue), min = fmin(fmin(*red, *green), *blue);
+    float hue, saturation, lightness = (max + min) / 2;
+
+    if (max == min) {
+        hue = saturation = 0; // achromatic
+    } else {
+        float d = max - min;
+        saturation = lightness > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+        if (max == *red) {
+            hue = (*green - *blue) / d + (*green < *blue ? 6 : 0);
+        } else if (max == *green) {
+            hue = (*blue - *red) / d + 2;
+        } else if (max == *blue) {
+            hue = (*red - *green) / d + 4;
+        }
+
+        hue /= 6;
+    }
+
+    float * hsl = malloc(3 * sizeof(float));
+    hsl[0] = hue;
+    hsl[1] = saturation;
+    hsl[2] = lightness;
+
+    return hsl;
+}
+
+
+float * HSLtoRGB(float * hue, float * saturation, float * lightness) {
+    
+    float red, green, blue; //this function works with floats between 0 and 1
+    float temp1, temp2, tempr, tempg, tempb;
+    
+    *hue /= 256.0;
+    *saturation /= 256.0;
+    *lightness /= 256.0;
+
+    //If saturation is 0, the color is a shade of gray
+    if (*saturation == 0) {
+        red = green = blue = *lightness;
+    }
+    //If saturation > 0, more complex calculations are needed
+    else {
+        //Set the temporary values      
+        if (*lightness < 0.5) temp2 = *lightness * (1 + *saturation);      
+        else temp2 = (*lightness + *saturation) - (*lightness * *saturation);     
+        
+        temp1 = 2 * *lightness - temp2;    
+        tempr = *hue + 1.0 / 3.0;    
+        
+        if (tempr > 1) tempr--;
+        
+        tempg = *hue;     
+        tempb = *hue - 1.0 / 3.0;
+        
+        if (tempb < 0) tempb++; 
+        
+        //Red     
+        if (tempr < 1.0 / 6.0) red = temp1 + (temp2 - temp1) * 6.0 * tempr;      
+        else if (tempr < 0.5) red = temp2;   
+        else if (tempr < 2.0 / 3.0) red = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempr) * 6.0;
+        else red = temp1; 
+        
+        //Green       
+        if (tempg < 1.0 / 6.0) green = temp1 + (temp2 - temp1) * 6.0 * tempg;    
+        else if (tempg < 0.5) green = temp2;
+        else if (tempg < 2.0 / 3.0) green = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempg) * 6.0;
+        else green = temp1; 
+        
+        //Blue    
+        if (tempb < 1.0 / 6.0) blue = temp1 + (temp2 - temp1) * 6.0 * tempb;   
+        else if (tempb < 0.5) blue = temp2; 
+        else if (tempb < 2.0 / 3.0) blue = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempb) * 6.0;    
+        else blue = temp1;
+
+        float * rgb = malloc(3 * sizeof(float));
+        rgb[0] = red;
+        rgb[1] = green;
+        rgb[2] = blue;
+
+        return rgb;
+    }
+}
+
+void setHue(unsigned char * data, int value, int imageSize) {
+    int i;
+    for (i = 0; i < imageSize; i += 3) {
+
+        float * red = (float *) data[i], * green = (float *) data[i+1], * blue = (float *) data[i+2];
+        float * hsl = rgbToHsl(red, green, blue);
+
+        hsl[0] *= value;
+
+        printf("%f, %f, %f\n", hsl[0], hsl[1], hsl[2]);
+
+        // float rgb[] = HSLtoRGB(hsl[0], hsl[1], hsl[2]);
+
+        // float hue = atan2(sqrt(3) * (green - blue), 2 * red - green - blue);
+
+        // printf("%f\n", hue);
+
+        // if (color > 255) {
+        //     data[i] = 255;
+        // }
+        // else if (color < 0) {
+        //     data[i] = 0;                
+        // }
+        // else {
+        //     data[i] = color;
+        // }
+    }
+}
+
 void main() {
     FILE *filePtr; //our file pointer
     filePtr = fopen("image.bmp", "rb");
@@ -142,8 +267,9 @@ void main() {
         return;
     }
 
-    setBrightness(bitmapData, 50, bitmapInfoHeader.biSizeImage);
-    setContrast(bitmapData, 180, bitmapInfoHeader.biSizeImage);
+    // setBrightness(bitmapData, 50, bitmapInfoHeader.biSizeImage);
+    // setContrast(bitmapData, 180, bitmapInfoHeader.biSizeImage);
+    setHue(bitmapData, 180, bitmapInfoHeader.biSizeImage);
 
     FILE * writeFile = fopen("out.bmp", "wb");
 
