@@ -107,9 +107,12 @@ int getPixelPositionX(int index, int width)
 
 int getPixelPositionY(int index, int width)
 {
-	int result = index / width;
+	return index / width;
+}
 
-	return result;
+int getIndexPixel(int x, int y, int width)
+{
+	return (y * width) + x;
 }
 
 double calcWeight(double factor, int x, int y) {
@@ -129,17 +132,24 @@ double calcWeight(double factor, int x, int y) {
 	return ret;
 }
 
-unsigned char calcPixelBlur(int index, unsigned char * data, int positionX, int positionY, int width, int height) {
-	int precision = 10;
-	int pixelsleft, pixelsright, pixelstop, pixelsbottom; // pixels die gebruikt worden voor weight
-	double matrix[10][10];
+void calcPixelBlur(int index, unsigned char * data, double value, int positionX, int positionY, int width, int height) {
+	int precision = 3;
+	int pixelsleft = precision, pixelsright = precision, pixelstop = precision, pixelsbottom = precision; // pixels die gebruikt worden voor weight
 	int i, j;
+	int pixelpos;
+	double pixelweight;
+	char r, g, b;
+	char newpixelR = 0;
+	char newpixelG = 0;
+	char newpixelB = 0;
+
+	index = index * 3;
 
 	if (positionX < precision)
 	{
 		pixelsleft = positionX;
 	}
-	else if (positionX > (width - precision))
+	else if (positionX >(width - precision))
 	{
 		pixelsright = width - positionX;
 	}
@@ -148,23 +158,34 @@ unsigned char calcPixelBlur(int index, unsigned char * data, int positionX, int 
 	{
 		pixelstop = positionY;
 	}
-	else if (positionY > (height - precision))
+	else if (positionY >(height - precision))
 	{
 		pixelsbottom = height - positionY;
 	}
 
-	for (i = 0; i < precision; i++)
+	for (i = -pixelsleft; i < pixelsright; i++)
 	{
-		for (j = 0; j < precision; j++)
+		for (j = -pixelstop; j < pixelsbottom; j++)
 		{
-			
+			pixelpos = (index + (i * 3)) + ((j * 3)* width);
+
+			pixelweight = calcWeight(value, i, j);
+			r = (char)(data[pixelpos] * pixelweight);
+			g = (char) (data[pixelpos + 1] * pixelweight);
+			b = (char) (data[pixelpos + 2] * pixelweight);
+
+			newpixelR += r;
+			newpixelG += g;
+			newpixelB += b;
 		}
 	}
 
-	return data[index];
+	data[index] = newpixelR;
+	data[index + 1] = newpixelG;
+	data[index + 2] = newpixelB;
 }
 
-void setBlur(unsigned char * data, int value, int imageSize, int width, int height) {
+void setBlur(unsigned char * data, double value, int imageSize, int width, int height) {
 	int i;
 	int positionX;
 	int positionY;
@@ -175,7 +196,7 @@ void setBlur(unsigned char * data, int value, int imageSize, int width, int heig
 		positionX = getPixelPositionX(i, width);
 		positionY = getPixelPositionY(i, width);
 
-		data[i] = calcPixelBlur(i, data, positionX, positionY, width, height);
+		calcPixelBlur(i, data, value, positionX, positionY, width, height);
 	}
 }
 
@@ -224,7 +245,7 @@ void main() {
 
 	//setBrightness(bitmapData, 50, bitmapInfoHeader.biSizeImage);
 	//setContrast(bitmapData, 180, bitmapInfoHeader.biSizeImage);
-	setBlur(bitmapData, 1, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
+	setBlur(bitmapData, 3, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
 
 	FILE * writeFile = fopen("out.bmp", "wb");
 
