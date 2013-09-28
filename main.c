@@ -93,22 +93,6 @@ unsigned char *LoadBitmapFile(FILE * filePtr, BITMAPINFOHEADER *bitmapInfoHeader
     return bitmapImage;
 }
 
-void setBrightness(unsigned char * data, int value, int imageSize) {
-    int i;
-    for (i = 0; i < imageSize; i++) {
-
-        if (data[i] + value > 255) {
-            data[i] = 255;
-        }
-        else if (data[i] + value < 0) {
-            data[i] = 0;                
-        }
-        else {
-            data[i] += value;
-        }
-    }
-}
-
 void setContrast(unsigned char * data, int value, int imageSize) {
     int i;
     for (i = 0; i < imageSize; i++) {
@@ -127,49 +111,13 @@ void setContrast(unsigned char * data, int value, int imageSize) {
     }
 }
 
-float * rgbToHsl(int red_ptr, int green_ptr, int blue_ptr) {
-
-    // printf("%d, %d, %d\n", red_ptr, green_ptr, blue_ptr);
-
-    float red = ((float) red_ptr)/256.0f, green = ((float) green_ptr)/256.0f, blue = ((float) blue_ptr)/256.0f;
-
-    // printf("%f\n", (float ) red_ptr);
-    // printf("%f, %f, %f\n", red, green, blue);
-
-    float max = fmax(fmax(red, green), blue), min = fmin(fmin(red, green), blue);
-    float hue, saturation, lightness = (max + min) / 2;
-
-    if (max == min) {
-        hue = saturation = 0; // achromatic
-    } else {
-        float d = max - min;
-        saturation = lightness > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-        if (max == red) {
-            hue = (green - blue) / d + (green < blue ? 6 : 0);
-        } else if (max == green) {
-            hue = (blue - red) / d + 2;
-        } else if (max == blue) {
-            hue = (red - green) / d + 4;
-        }
-
-        hue /= 6;
-    }
-
-    float * hsl = malloc(3 * sizeof(float));
-    hsl[0] = hue;
-    hsl[1] = saturation;
-    hsl[2] = lightness;
-
-    return hsl;
-}
-
-float * RGBtoHSL(int red_ptr, int green_ptr, int blue_ptr) 
-{ 
+float * RGBtoHSL(int red_ptr, int green_ptr, int blue_ptr) { 
     float red, green, blue, hue, saturation, lightness; //this function works with floats between 0 and 1 
-    red = ((float) red_ptr) / 256.0f; 
-    green = ((float) green_ptr) / 256.0f; 
-    blue = ((float) blue_ptr) / 256.0f;
+    red = ((float) red_ptr) / 255.0f; 
+    green = ((float) green_ptr) / 255.0f; 
+    blue = ((float) blue_ptr) / 255.0f;
+
+    // printf("%f, %f, %f\n", red, green, blue);
 
     float maxColor = max(red, max(green, blue)); 
     float minColor = min(red, min(green, blue));
@@ -265,9 +213,9 @@ int * HSLtoRGB(float hue, float saturation, float lightness) {
 
         // printf(": %f, %f, %f\n", red, green, blue);
 
-        rgb[0] = red < 1.0 ? roundf(red * 256.0) : 255;
-        rgb[1] = green < 1.0 ? roundf(green * 256.0) : 255;
-        rgb[2] = blue < 1.0 ? roundf(blue * 256.0) : 255;
+        rgb[0] = red < 1.0 ? roundf(red * 255.0) : 255;
+        rgb[1] = green < 1.0 ? roundf(green * 255.0) : 255;
+        rgb[2] = blue < 1.0 ? roundf(blue * 255.0) : 255;
 
         // printf(": %f, %f, %f\n", red * 256, green * 256, blue*256);
 
@@ -276,35 +224,24 @@ int * HSLtoRGB(float hue, float saturation, float lightness) {
 
     // }
         return rgb;
-
 }
 
+
+// Hue values: 0.0 - 2.0 
 void setHue(unsigned char * data, float value, int imageSize) {
+    // value /= 100;
+
     int i;
     for (i = 0; i < imageSize; i += 3) {
-        // printf("\n%d:\n", i);
-        // int * red = data[i], * green = data[i+1], * blue = data[i+2];
-        // printf("%p = %p\n", &red[i], &data[i]);
 
-        // printf("Initial RGB: %d, %d, %d\n", data[i], data[i+1], data[i+2]);
+        // Convert pixel to HSL
         float * hsl = RGBtoHSL(data[i], data[i+1], data[i+2]);
 
+        // Apply value
         // printf("%f\n", hsl[0]);
-        if ((int) ((hsl[0] * value) * 255) > 255) {
-            // printf("%d\n", (int) ((hsl[0] + value) * 255));
-            hsl[0] = 1.0;
-        }
-        if ((int) ((hsl[0] * value) * 255) < 0) {
-            hsl[0] = 0.0;
-        } else {
-            hsl[0] *= value;
-        }
-        // hsl[2] += (hsl[2] + value) > 1.0 ? 1.0 : value;
-        // hsl[2] += value;
-        // printf("%f\n", hsl[2]);
+        hsl[0] *= value;
 
-        // printf("HSL: %f, %f, %f\n", hsl[0], hsl[1], hsl[2]);
-
+        // Convert back to RGB
         int * rgb = HSLtoRGB(hsl[0], hsl[1], hsl[2]);
 
         data[i] = rgb[0];
@@ -312,9 +249,61 @@ void setHue(unsigned char * data, float value, int imageSize) {
         data[i+2] = rgb[2];
 
         free(rgb);
+    }
+}
 
-        // printf("After conversion: %d, %d, %d\n", rgb[0], rgb[1], rgb[2]);
+// Saturation values: 0.0 - 2.0
+void setSaturation(unsigned char * data, float value, int imageSize) {
+    // value /= 100;
 
+    int i;
+    for (i = 0; i < imageSize; i += 3) {
+
+        // Convert pixel to HSL
+        float * hsl = RGBtoHSL(data[i], data[i+1], data[i+2]);
+
+        // Apply value
+        if (hsl[1] * value > 1.0) {
+            hsl[1] = 1.0;
+        } else if (hsl[1] * value < 0.0) {
+            hsl[1] = 0.0;
+        }
+        else {
+            hsl[1] *= value;
+        }
+
+        // Convert back to RGB
+        int * rgb = HSLtoRGB(hsl[0], hsl[1], hsl[2]);
+
+        data[i] = rgb[0];
+        data[i+1] = rgb[1];
+        data[i+2] = rgb[2];
+
+        free(rgb);
+    }
+}
+
+// Lightness values: 0.0 - 2.0
+void setLightness(unsigned char * data, float value, int imageSize) {
+    // value /= 100;
+
+    int i;
+    for (i = 0; i < imageSize; i += 3) {
+
+        // Convert pixel to HSL
+        float * hsl = RGBtoHSL(data[i], data[i+1], data[i+2]);
+
+        // Apply value
+        hsl[2] *= value;
+
+        // Convert back to RGB
+        int * rgb = HSLtoRGB(hsl[0], hsl[1], hsl[2]);
+
+        data[i] = rgb[0];
+        data[i+1] = rgb[1];
+        data[i+2] = rgb[2];
+
+        free(rgb);
     }
 }
 
@@ -324,48 +313,48 @@ int main(int argc, char *argv[]) {
         printf("%s\n", "No parameters have been specified. Please use this command: bmp <hue> <saturation> <brightness>");
     }
     else {
+        float hue = atof(argv[1]), saturation = atof(argv[2]), brightness = atof(argv[3]);
 
-        int hue = atoi(argv[1]), saturation = atoi(argv[2]), brightness = atoi(argv[3]);
+        printf("Hue: %f\n", hue);
 
         if (hue == 0 || saturation == 0 || brightness == 0) {
             printf("%s\n", "One of the parameters is not a number.");
             return 1;
         }
 
-        // FILE *filePtr; //our file pointer
-        // filePtr = fopen("image.bmp", "rb");
-        // if (filePtr == NULL) {
-        //     return;
-        // }
+        FILE *filePtr; //our file pointer
+        filePtr = fopen("image.bmp", "rb");
+        if (filePtr == NULL) {
+            return;
+        }
 
-        // BITMAPFILEHEADER bitmapFileHeader; //our bitmap file header
-        // fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
+        BITMAPFILEHEADER bitmapFileHeader; //our bitmap file header
+        fread(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, filePtr);
 
-        // if (bitmapFileHeader.bfType != 0x4D42) {
-        //     fclose(filePtr);
-        //     printf("%s\n", "Error: Not a BMP file.");
-        //     return;
-        // }
+        if (bitmapFileHeader.bfType != 0x4D42) {
+            fclose(filePtr);
+            printf("%s\n", "Error: Not a BMP file.");
+            return;
+        }
 
-        // BITMAPINFOHEADER bitmapInfoHeader;
-        // unsigned char *bitmapData;
-        // bitmapData = LoadBitmapFile(filePtr, &bitmapInfoHeader, &bitmapFileHeader);
+        BITMAPINFOHEADER bitmapInfoHeader;
+        unsigned char *bitmapData;
+        bitmapData = LoadBitmapFile(filePtr, &bitmapInfoHeader, &bitmapFileHeader);
 
-        // if (bitmapData == NULL) {
-        //     printf("%s\n", "Error: Data is empty.");
-        //     return;
-        // }
+        if (bitmapData == NULL) {
+            printf("%s\n", "Error: Data is empty.");
+            return;
+        }
 
-        // // setBrightness(bitmapData, 50, bitmapInfoHeader.biSizeImage);
-        // // setContrast(bitmapData, 180, bitmapInfoHeader.biSizeImage);
-        // setHue(bitmapData, -0.6, bitmapInfoHeader.biSizeImage);
+        setHue(bitmapData, hue, bitmapInfoHeader.biSizeImage);
+        setSaturation(bitmapData, saturation, bitmapInfoHeader.biSizeImage);
+        setLightness(bitmapData, brightness, bitmapInfoHeader.biSizeImage);
 
-        // printf("\n%s\n", "Writing to picture.");    
-        // FILE * writeFile = fopen("out.bmp", "wb");
 
-        // fwrite(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, writeFile);
-        // fwrite(&bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, writeFile);
-        // fwrite(bitmapData, bitmapInfoHeader.biSizeImage, 1, writeFile);
-        // printf("%s\n", "Done.");
+        FILE * writeFile = fopen("out.bmp", "wb");
+
+        fwrite(&bitmapFileHeader, sizeof(BITMAPFILEHEADER), 1, writeFile);
+        fwrite(&bitmapInfoHeader, sizeof(BITMAPINFOHEADER), 1, writeFile);
+        fwrite(bitmapData, bitmapInfoHeader.biSizeImage, 1, writeFile);
     }
 }
