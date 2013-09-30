@@ -153,77 +153,47 @@ float * RGBtoHSL(int red_ptr, int green_ptr, int blue_ptr) {
 
 int * HSLtoRGB(float hue, float saturation, float lightness) {
 
-    // printf("%f, %f, %f\n", hue, saturation, lightness);
-
     float red, green, blue; //this function works with floats between 0 and 1
     float temp1, temp2, tempRed, tempGreen, tempBlue;
     int * rgb = malloc(3 * sizeof(int));
 
-    // hue /= 256.0;
-    // saturation /= 256.0;
-    // lightness /= 256.0;
 
-    // printf("%f, %f, %f\n", hue, saturation, lightness);
+    if (lightness < 0.5) temp2 = lightness * (1 + saturation);      
+    else temp2 = (lightness + saturation) - (lightness * saturation);     
+    
+    temp1 = 2 * lightness - temp2;    
+    tempRed = hue + 1.0 / 3.0;    
+    
+    if (tempRed > 1) tempRed--;
+    
+    tempGreen = hue;     
+    tempBlue = hue - 1.0 / 3.0;
+    
+    if (tempBlue < 0) tempBlue++; 
+    
+    //Red     
+    if (tempRed < 1.0 / 6.0) red = temp1 + (temp2 - temp1) * 6.0 * tempRed;      
+    else if (tempRed < 0.5) red = temp2;   
+    else if (tempRed < 2.0 / 3.0) red = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempRed) * 6.0;
+    else red = temp1; 
+    
+    //Green       
+    if (tempGreen < 1.0 / 6.0) green = temp1 + (temp2 - temp1) * 6.0 * tempGreen;    
+    else if (tempGreen < 0.5) green = temp2;
+    else if (tempGreen < 2.0 / 3.0) green = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempGreen) * 6.0;
+    else green = temp1; 
+    
+    //Blue    
+    if (tempBlue < 1.0 / 6.0) blue = temp1 + (temp2 - temp1) * 6.0 * tempBlue;   
+    else if (tempBlue < 0.5) blue = temp2; 
+    else if (tempBlue < 2.0 / 3.0) blue = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempBlue) * 6.0;    
+    else blue = temp1;
 
+    rgb[0] = red < 1.0 ? roundf(red * 255.0) : 255;
+    rgb[1] = green < 1.0 ? roundf(green * 255.0) : 255;
+    rgb[2] = blue < 1.0 ? roundf(blue * 255.0) : 255;
 
-    //If saturation is 0, the color is a shade of gray
-    // if (saturation == 0) {
-        // red = green = blue = lightness;
-        // memset(rgb, red, 3 * sizeof(int)); 
-    // }
-    //If saturation > 0, more complex calculations are needed
-    // else {
-        //Set the temporary values      
-        if (lightness < 0.5) temp2 = lightness * (1 + saturation);      
-        else temp2 = (lightness + saturation) - (lightness * saturation);     
-        
-        temp1 = 2 * lightness - temp2;    
-        tempRed = hue + 1.0 / 3.0;    
-        
-        if (tempRed > 1) tempRed--;
-        
-        tempGreen = hue;     
-        tempBlue = hue - 1.0 / 3.0;
-        
-        if (tempBlue < 0) tempBlue++; 
-        
-        //Red     
-        // if (tempRed > 1.0) red = 1.0;
-        // else if (tempRed < 0.0) red = 0.0;
-        if (tempRed < 1.0 / 6.0) red = temp1 + (temp2 - temp1) * 6.0 * tempRed;      
-        else if (tempRed < 0.5) red = temp2;   
-        else if (tempRed < 2.0 / 3.0) red = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempRed) * 6.0;
-        else red = temp1; 
-        
-        //Green       
-        // if (tempGreen > 1.0) green = 1.0;
-        // else if (tempGreen < 0.0) green = 0.0;
-        if (tempGreen < 1.0 / 6.0) green = temp1 + (temp2 - temp1) * 6.0 * tempGreen;    
-        else if (tempGreen < 0.5) green = temp2;
-        else if (tempGreen < 2.0 / 3.0) green = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempGreen) * 6.0;
-        else green = temp1; 
-        
-        //Blue    
-        // if (tempBlue > 1.0) blue = 1.0;
-        // else if (tempBlue < 0.0) blue = 0.0;
-        if (tempBlue < 1.0 / 6.0) blue = temp1 + (temp2 - temp1) * 6.0 * tempBlue;   
-        else if (tempBlue < 0.5) blue = temp2; 
-        else if (tempBlue < 2.0 / 3.0) blue = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempBlue) * 6.0;    
-        else blue = temp1;
-
-        // printf(": %f, %f, %f\n", red, green, blue);
-
-        rgb[0] = red < 1.0 ? roundf(red * 255.0) : 255;
-        rgb[1] = green < 1.0 ? roundf(green * 255.0) : 255;
-        rgb[2] = blue < 1.0 ? roundf(blue * 255.0) : 255;
-
-        // printf(": %f, %f, %f\n", red * 256, green * 256, blue*256);
-
-
-        // printf("After conversion: %d, %d, %d\n", rgb[0], rgb[1], rgb[2]);
-
-    // }
-        return rgb;
+    return rgb;
 }
 
 
@@ -285,8 +255,6 @@ void setSaturation(unsigned char * data, float value, int imageSize) {
 
 // Lightness values: 0.0 - 2.0
 void setLightness(unsigned char * data, float value, int imageSize) {
-    // value /= 100;
-
     int i;
     for (i = 0; i < imageSize; i += 3) {
 
