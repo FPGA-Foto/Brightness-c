@@ -243,8 +243,8 @@ void main() {
 		return;
 	}
 
-	//setBrightness(bitmapData, 50, bitmapInfoHeader.biSizeImage);
-	//setContrast(bitmapData, 180, bitmapInfoHeader.biSizeImage);
+	setBrightness(bitmapData, 50, bitmapInfoHeader.biSizeImage);
+	setContrast(bitmapData, 180, bitmapInfoHeader.biSizeImage);
 	setBlur(bitmapData, 6, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
 
 	FILE * writeFile = fopen("out.bmp", "wb");
