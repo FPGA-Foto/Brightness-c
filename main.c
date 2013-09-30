@@ -133,7 +133,7 @@ double calcWeight(double factor, int x, int y) {
 }
 
 void calcPixelBlur(int index, unsigned char * data, double value, int positionX, int positionY, int width, int height) {
-	int precision = 3;
+	int precision = value;
 	int pixelsleft = precision, pixelsright = precision, pixelstop = precision, pixelsbottom = precision; // pixels die gebruikt worden voor weight
 	int i, j;
 	int pixelpos;
@@ -245,7 +245,7 @@ void main() {
 
 	//setBrightness(bitmapData, 50, bitmapInfoHeader.biSizeImage);
 	//setContrast(bitmapData, 180, bitmapInfoHeader.biSizeImage);
-	setBlur(bitmapData, 3, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
+	setBlur(bitmapData, 6, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
 
 	FILE * writeFile = fopen("out.bmp", "wb");
 
