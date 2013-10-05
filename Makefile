@@ -1,2 +1,2 @@
 all:
-	gcc main.c -o bmp
+	gcc main.c bitmap.c hsl.c -lm -o bmp
