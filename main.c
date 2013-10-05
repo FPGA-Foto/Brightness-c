@@ -4,6 +4,7 @@
 #include "bitmap.h"
 #include "hsl.h"
 #include "blur.h"
+#include "fisheye.h"
 
 int main(int argc, char *argv[]) {
 
@@ -18,7 +19,7 @@ int main(int argc, char *argv[]) {
             return 1;
         }
 
-        FILE *filePtr; //our file pointer
+        FILE *filePtr; // File pointer
         filePtr = fopen("image.bmp", "rb");
         if (filePtr == NULL) {
             return;
@@ -42,10 +43,11 @@ int main(int argc, char *argv[]) {
             return;
         }
 
-        setBlur(bitmapData, 5, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
-        setHue(bitmapData, hue, bitmapInfoHeader.biSizeImage);
-        setSaturation(bitmapData, saturation, bitmapInfoHeader.biSizeImage);
-        setLightness(bitmapData, brightness, bitmapInfoHeader.biSizeImage);
+        setFishEye(bitmapData, 5, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
+        // setBlur(bitmapData, 5, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
+        // setHue(bitmapData, hue, bitmapInfoHeader.biSizeImage);
+        // setSaturation(bitmapData, saturation, bitmapInfoHeader.biSizeImage);
+        // setLightness(bitmapData, brightness, bitmapInfoHeader.biSizeImage);
 
         FILE * writeFile = fopen("out.bmp", "wb");
 
