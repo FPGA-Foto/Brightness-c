@@ -3,6 +3,7 @@
 
 #include "bitmap.h"
 #include "hsl.h"
+#include "blur.h"
 
 int main(int argc, char *argv[]) {
 
@@ -41,10 +42,10 @@ int main(int argc, char *argv[]) {
             return;
         }
 
+        setBlur(bitmapData, 5, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
         setHue(bitmapData, hue, bitmapInfoHeader.biSizeImage);
         setSaturation(bitmapData, saturation, bitmapInfoHeader.biSizeImage);
         setLightness(bitmapData, brightness, bitmapInfoHeader.biSizeImage);
-
 
         FILE * writeFile = fopen("out.bmp", "wb");
 
