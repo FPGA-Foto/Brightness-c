@@ -26,7 +26,6 @@ void setFishEye(unsigned char * data, double value, int imageSize, int width, in
 					double newNormalizedX = newDistanceToCenter * cos(angleTheta);
 					double newNormalizedY = newDistanceToCenter * sin(angleTheta);
 
-
 					int x2 = (int) (((newNormalizedX + 1) * (width)) / 2.0);
                     // map from -1 ... 1 to image coordinates
                     int y2 = (int) (((newNormalizedY + 1) * height) / 2.0);
@@ -36,7 +35,7 @@ void setFishEye(unsigned char * data, double value, int imageSize, int width, in
                     if (originalPosition >= 0 & originalPosition < (width)*height) {
                     	int newPosition = (int) (currentY * (width) + currentX);
                         // get new pixel (x2,y2) and put it to target array at (x,y)
-                        printf("[%d, %d] [%d, %d]\n", currentX, currentY, x2, y2);
+                        // printf("[%d, %d] [%d, %d]\n", currentX, currentY, x2, y2);
                         data[newPosition] = data[originalPosition*3];    
                         data[newPosition+1] = data[originalPosition*3+1];    
                         data[newPosition+2] = data[originalPosition*3+2];    
