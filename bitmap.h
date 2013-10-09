@@ -8,6 +8,12 @@
 
 #pragma pack(push, 1)
 
+typedef struct pixel {
+    int red    :1*BYTE;
+    int green  :1*BYTE;
+    int blue   :1*BYTE;
+} Pixel;
+
 typedef struct tagBITMAPFILEHEADER
 {
     short bfType        :2*BYTE; //specifies the file type
@@ -38,6 +44,6 @@ typedef struct tagBITMAPINFOHEADER
 
 #pragma pack(pop)
 
-unsigned char *LoadBitmapFile(FILE * filePtr, BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER * bitmapFileHeader);
+Pixel * LoadBitmapFile(FILE * filePtr, BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER * bitmapFileHeader);
 
 #endif

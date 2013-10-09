@@ -1,7 +1,7 @@
 #include "bitmap.h"
 
-unsigned char *LoadBitmapFile(FILE * filePtr, BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER * bitmapFileHeader) {
-    unsigned char *bitmapImage;  //store image data
+Pixel *LoadBitmapFile(FILE * filePtr, BITMAPINFOHEADER *bitmapInfoHeader, BITMAPFILEHEADER * bitmapFileHeader) {
+    Pixel * bitmapImage;  //store image data
     int imageIdx = 0;  //image index counter
     unsigned char tempRGB;  //our swap variable
 
@@ -22,7 +22,8 @@ unsigned char *LoadBitmapFile(FILE * filePtr, BITMAPINFOHEADER *bitmapInfoHeader
 
 
     // Allocate enough memory for the bitmap image data
-    bitmapImage = (unsigned char*) malloc(bitmapInfoHeader->biSizeImage);
+    // bitmapImage = (unsigned char*) malloc(bitmapInfoHeader->biSizeImage);
+    bitmapImage = (Pixel *) malloc(bitmapInfoHeader->biSizeImage);
 
     // Verify memory allocation
     if (!bitmapImage) {

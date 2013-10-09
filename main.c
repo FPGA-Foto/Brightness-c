@@ -35,13 +35,16 @@ int main(int argc, char *argv[]) {
         }
 
         BITMAPINFOHEADER bitmapInfoHeader;
-        unsigned char *bitmapData;
-        bitmapData = LoadBitmapFile(filePtr, &bitmapInfoHeader, &bitmapFileHeader);
+        Pixel * bitmapData = LoadBitmapFile(filePtr, &bitmapInfoHeader, &bitmapFileHeader);
 
         if (bitmapData == NULL) {
             printf("%s\n", "Error: Data is empty.");
             return;
         }
+
+        printf("Width: %d\nHeight: %d\nAspect ratio: %f\n", 
+            bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight, 
+            ((float) bitmapInfoHeader.biWidth / (float) bitmapInfoHeader.biHeight));
 
         setFishEye(bitmapData, 5, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
         // setBlur(bitmapData, 5, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
