@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
         }
 
         FILE *filePtr; // File pointer
-        filePtr = fopen("image.bmp", "rb");
+        filePtr = fopen("paper.bmp", "rb");
         if (filePtr == NULL) {
             return;
         }

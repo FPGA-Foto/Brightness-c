@@ -22,7 +22,6 @@ Pixel *LoadBitmapFile(FILE * filePtr, BITMAPINFOHEADER *bitmapInfoHeader, BITMAP
 
 
     // Allocate enough memory for the bitmap image data
-    // bitmapImage = (unsigned char*) malloc(bitmapInfoHeader->biSizeImage);
     bitmapImage = (Pixel *) malloc(bitmapInfoHeader->biSizeImage);
 
     // Verify memory allocation
