@@ -1,23 +1,38 @@
 #include "fisheye.h"
 
-void setFishEye(Pixel * data, double value, int imageSize, int width, int height) {
+void setFishEye(Pixel * data, int imageSize, int widthInt, int heightInt) {
 
 	Pixel * newData = malloc(imageSize);
 	memcpy(newData, data, imageSize);
 
-	int currentY;
-	for (currentY = 0; currentY < height; currentY++) {
+	long width = toFixedPoint(widthInt), height = toFixedPoint(heightInt);
+	long xFactor = toFixedPoint(2.5), xOffset = toFixedPoint(1.0);
 
-		// Distance in height between 0 and 1               +Centers image
-		double normalizedY = ((2.0 * currentY) / height) - 1.0;
-		double normalizedY2 = normalizedY*normalizedY;
+	for (long currentY = 0; currentY < height; addFixedPoint(currentY, 1)) {
 
-		int currentX;
-		for (currentX = 0; currentX < width; currentX++) {
+		// Distance in height between 0 and 1
+		// double normalizedYn = ((2.0 * currentY) / height) - 1.0;
+		// double normalizedY2n = (normalizedYn * normalizedYn);
+
+		long normalizedY = ((2 * currentY) / height) - toFixedPoint(1.0);
+		long normalizedY2 = multiplyFixedPoint(normalizedY * normalizedY);
+
+		// printf("y: %d -> %f == %f\n", currentY, fromFixedPoint(normalizedY2), normalizedY2n);
+
+		for (long currentX = 0; currentX < width; addFixedPoint(currentX++, 1)) {
+
+			// double normalizedXn = ((2.5 * currentX)  / width) - 1.0;		
 			
 			// Distance in width between 0 and 1
-			double normalizedX = ((2.5 * currentX) / width) - 1.0;
-			double normalizedX2 = normalizedX * normalizedX;
+			long normalizedX = multiplyFixedPoint(xFactor * currentX)  / width - xOffset;
+			
+			long normalizedX2 = multiplyFixedPoint(normalizedX * normalizedX);
+
+			// printf("y: %d -> %f == %f\n", currentY, fromFixedPoint(normalizedX2), normalizedXn*normalizedXn);
+
+			// printf("%f\n", sqrt((normalizedYn*normalizedYn) * (normalizedXn * normalizedXn)));
+			// printf("sqrt: %d\n", sqrt2(toFixedPoint(25)));
+			// printf("sqrt: %f\n", fromFixedPoint(magic_sqrt(25)));
 
 			double distanceToCenter = sqrt(normalizedX2 + normalizedY2);
 
@@ -41,14 +56,14 @@ void setFishEye(Pixel * data, double value, int imageSize, int width, int height
                     // make sure that position stays within arrays
                     if (sourcePosition >= 0 & sourcePosition < width * height) {
                     	int destinationPosition = (int) (currentY * width + currentX);
-                        newData[destinationPosition + 400] = data[sourcePosition];    
+                        newData[destinationPosition + 0] = data[sourcePosition];    
                     }
 				}
 			}
 			else {
-        	  	newData[currentY * width + currentX + 400].red = 0;
-    	      	newData[currentY * width + currentX + 400].green = 0;
-	          	newData[currentY * width + currentX + 400].blue = 0;
+        	  	newData[currentY * width + currentX + 0].red = 0;
+    	      	newData[currentY * width + currentX + 0].green = 0;
+	          	newData[currentY * width + currentX + 0].blue = 0;
             }
 		}
 	}

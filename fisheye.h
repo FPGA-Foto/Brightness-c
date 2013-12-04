@@ -5,7 +5,8 @@
 #include <string.h>
 #include <stdio.h>
 #include "bitmap.h"
+#include "std.h"
 
-void setFishEye(Pixel * data, double value, int imageSize, int width, int height);
+void setFishEye(Pixel * data, int imageSize, int width, int height);
 
 #endif

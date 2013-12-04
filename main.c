@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
         }
 
         FILE *filePtr; // File pointer
-        filePtr = fopen("paper.bmp", "rb");
+        filePtr = fopen("image.bmp", "rb");
         if (filePtr == NULL) {
             return;
         }
@@ -47,10 +47,10 @@ int main(int argc, char *argv[]) {
             ((float) bitmapInfoHeader.biWidth / (float) bitmapInfoHeader.biHeight));
 
         // setBlur(bitmapData, 4, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
-        setFishEye(bitmapData, 5, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
-        setHue(bitmapData, hue, bitmapInfoHeader.biSizeImage);
-        setSaturation(bitmapData, saturation, bitmapInfoHeader.biSizeImage);
-        setLightness(bitmapData, brightness, bitmapInfoHeader.biSizeImage);
+        setFishEye(bitmapData, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
+        // setHue(bitmapData, hue, bitmapInfoHeader.biSizeImage);
+        // setSaturation(bitmapData, saturation, bitmapInfoHeader.biSizeImage);
+        // setLightness(bitmapData, brightness, bitmapInfoHeader.biSizeImage);
 
         FILE * writeFile = fopen("out.bmp", "wb");
 
