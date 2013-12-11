@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-static long SQRT_LUT[1200];
+static long SQRT_LUT[4900];
 static long ATAN2_LUT[1200];
 static long COS_LUT[1200];
 static long SIN_LUT[1200];
@@ -61,7 +61,7 @@ long divideFixedPoint(long a, long b) {
 // 0.0033
 void generateLUT() {
 	// Generate sqrt LUT
-	for (int i = 0; i < 1200; i++) {
+	for (int i = 0; i < 4900; i++) {
 		float radicand = 0.0033 * i;
 		SQRT_LUT[i] = toFixedPoint(sqrt(radicand));
 	}

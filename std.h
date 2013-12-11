@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-static long SQRT_LUT[1200];
+static long SQRT_LUT[3000];
 static long ATAN2_LUT[1200];
 static long COS_LUT[1200];
 static long SIN_LUT[1200];
