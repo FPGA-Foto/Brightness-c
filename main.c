@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
         FILE *filePtr; // File pointer
         filePtr = fopen("image.bmp", "rb");
         if (filePtr == NULL) {
-            return;
+            return 0;
         }
 
         BITMAPFILEHEADER bitmapFileHeader; //our bitmap file header
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
         if (bitmapFileHeader.bfType != 0x4D42) {
             fclose(filePtr);
             printf("%s\n", "Error: Not a BMP file.");
-            return;
+            return 0;
         }
 
         BITMAPINFOHEADER bitmapInfoHeader;
@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 
         if (bitmapData == NULL) {
             printf("%s\n", "Error: Data is empty.");
-            return;
+            return 0;
         }
 
         printf("Width: %d\nHeight: %d\nAspect ratio: %f\n", 
