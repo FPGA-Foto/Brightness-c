@@ -41,6 +41,9 @@ long divideFixedPoint(long a, long b);
 // 0.0033
 void generateLUT();
 
+
+long arctan2(long y, long x);
+
 long atan2_fp(long y_fp, long x_fp);
 
 long fixedSqrt(long radicand);

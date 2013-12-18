@@ -64,13 +64,14 @@ void generateLUT() {
 	for (int i = 0; i < 4900; i++) {
 		float radicand = 0.0033 * i;
 		SQRT_LUT[i] = toFixedPoint(sqrt(radicand));
+		// printf("%ld\n", SQRT_LUT[i]);
 	}
 
 	// Generate atan2 LUT
-	for (int i = 0; i < 1200; i++) {
-		float radicand = 0.0033 * i;
-		SQRT_LUT[i] = toFixedPoint(atan2(radicand, i));
-	}
+	// for (int i = 0; i < 1200; i++) {
+	// 	float radicand = 0.0033 * i;
+	// 	SQRT_LUT[i] = toFixedPoint(atan2(radicand, i));
+	// }
 
 	// Generate cos LUT
 	for (int i = 0; i < 1200; i++) {
@@ -132,9 +133,57 @@ long atan2_fp(long y_fp, long x_fp) {
 		return (angle);
 }
 
+long arctan2(long y, long x) {
+	// printf("\n");
+
+	// printf("x: %f, y: %f\n", fromFixedPoint(x), fromFixedPoint(y));
+
+	long fixedPi = toFixedPoint(3.14);
+	long c1 = fixedPi/4;
+	// printf("c1: %f\n", fromFixedPoint(c1));
+
+	long angle;
+	long r;
+	long absY = y;
+
+	if (x == 0 && y == 0) return 0;
+
+	if (y < 0) {
+		// printf("y is negative\n");
+		absY = ~absY+1;
+	}
+	
+	if (x >= 0) {
+		// printf("x >= 0\n");
+
+		r = divideFixedPoint(x - absY, x + absY);
+		// printf("%f / %f = %f\n", fromFixedPoint(x - absY), fromFixedPoint(x + absY), fromFixedPoint(r));		
+
+		angle = c1 - multiplyFixedPoints(c1, r);
+	} else {
+		// printf("x < 0\n");
+		// printf("%f / %f = %f\n", fromFixedPoint(x - absY), fromFixedPoint(x + absY), fromFixedPoint(r));		
+		
+		r = divideFixedPoint(x + absY, absY - x);
+		// printf("r: %f\n", fromFixedPoint(r));
+
+		angle = (3 * c1) - multiplyFixedPoints(c1, r);
+	}
+
+	return y > 0 ? angle : -angle;
+}
+
 long fixedSqrt(long radicand) {
-	radicand /= 216;
-	return SQRT_LUT[radicand];
+	// printf("radicand: %ld\n", radicand);
+
+	long newRadicand = radicand / 216;
+
+	// for (int i = 0; i < 4900; i++) {
+	// 	printf("%f\n", fromFixedPoint(SQRT_LUT[i]));
+	// }
+
+	// printf("newRadicand: %ld\n", newRadicand);
+	return SQRT_LUT[newRadicand];
 }
 
 long fixedAtan2(long radicand) {
