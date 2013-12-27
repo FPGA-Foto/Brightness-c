@@ -3,11 +3,6 @@
 
 #include <stdio.h>
 
-static long SQRT_LUT[3000];
-static long ATAN2_LUT[1200];
-static long COS_LUT[1200];
-static long SIN_LUT[1200];
-
 #define SHIFT_AMOUNT 16 // 2^16 = 65536
 #define SHIFT_MASK ((1 << SHIFT_AMOUNT) - 1)
 // #define MULTIPLY_FP_RESOLUTION_BITS	15
@@ -23,6 +18,8 @@ static long SIN_LUT[1200];
 
 // 	return fixedPointNumber;
 // }
+
+// float fromFixedPoint(long number);
 
 float fromFixedPoint(long number);
 
