@@ -18,46 +18,61 @@ void setFishEye(Pixel * data, int imageSize, int widthInt, int heightInt) {
 
 		for (long currentX = 0; currentX < width; currentX = addFixedPoint(currentX, 1)) {
 
+			int currentPosition = fromFixedPoint(multiplyFixedPoints(currentY, width) + currentX);
 
 			long normalizedX = divideFixedPoint(multiplyFixedPoints(xFactor, currentX), width) - xOffset;
 			long normalizedX2 = multiplyFixedPoints(normalizedX, normalizedX);
 
 			long distanceRadicand = normalizedX2 + normalizedY2;
 			long distanceToCenter = fixedSqrt(distanceRadicand);
+			
+			// printf("%d: %f, %f\n", currentPosition, fromFixedPoint(normalizedX), 
+				// fromFixedPoint(normalizedY));
 
-			// int currentPosition = fromFixedPoint(multiplyFixedPoints(currentY, width) + currentX);
+			// printf("%d: %f, %f\n", currentPosition, fromFixedPoint(normalizedX2), 
+				// fromFixedPoint(normalizedY2));
+
 			// printf("%d: %f -> %f\n", currentPosition, fromFixedPoint(distanceRadicand), fromFixedPoint(distanceToCenter));
 
 			if (distanceToCenter >= 0 && distanceToCenter <= toFixedPoint(1.0)) { // 65536 = 1.0
 				long newDistanceToCenter = (distanceToCenter + (toFixedPoint(1.0) - 
-					fixedSqrt(toFixedPoint(1.0) - multiplyFixedPoints(distanceToCenter, distanceToCenter)))) / 2; // 131072 = 2.0
+					fixedSqrt(toFixedPoint(0.998) - multiplyFixedPoints(distanceToCenter, distanceToCenter)))) / 2; // 131072 = 2.0
+
+				// printf("%d: %f -> %f\n", currentPosition, fromFixedPoint(distanceRadicand), fromFixedPoint(distanceToCenter));
 					
+				// printf("%d: %f -> %f\n", currentPosition, fromFixedPoint(multiplyFixedPoints(distanceToCenter, distanceToCenter)), 
+					// fromFixedPoint(fixedSqrt(toFixedPoint(1.0) - multiplyFixedPoints(distanceToCenter, distanceToCenter))));
 
-				// int currentPosition = fromFixedPoint(multiplyFixedPoints(currentY, width) + currentX);
+				// printf("%d: %f -> %f\n", currentPosition, fromFixedPoint(toFixedPoint(1.0) - multiplyFixedPoints(distanceToCenter, distanceToCenter)), 
+					// fromFixedPoint(fixedSqrt(toFixedPoint(1.0) - multiplyFixedPoints(distanceToCenter, distanceToCenter))));
+
 				// printf("%d: %f\n", currentPosition, fromFixedPoint(newDistanceToCenter));
-
 
 				if (newDistanceToCenter <= toFixedPoint(1.0)) {
 					long angleTheta = arctan2(normalizedY, normalizedX);
 					long newNormalizedX = multiplyFixedPoints(newDistanceToCenter, fixedCos(angleTheta));
 					long newNormalizedY = multiplyFixedPoints(newDistanceToCenter, fixedSin(angleTheta));
 
+					// printf("%d: %f -> %f, %f\n", currentPosition, fromFixedPoint(angleTheta), 
+					// 	fromFixedPoint(newNormalizedX), fromFixedPoint(newNormalizedY));
 
-					// printf("%d: %f = %f\n", currentPosition, fromFixedPoint(angleTheta), fromFixedPoint(fixedSin(angleTheta)));
+					// printf("%d: sin(%f) = %f\n", currentPosition, fromFixedPoint(angleTheta), fromFixedPoint(fixedSin(angleTheta)));
+					// printf("%d: cos(%f) = %f\n", currentPosition, fromFixedPoint(angleTheta), fromFixedPoint(fixedCos(angleTheta)));
 
-					int x2 = (int) fromFixedPoint(multiplyFixedPoints( (newNormalizedX + toFixedPoint(1.0)), (width / 2)));
+					int x2 = (int) fromFixedPoint( multiplyFixedPoints(newNormalizedX + toFixedPoint(1.0), width / 2) );
 
                     // map from -1 ... 1 to image coordinates
-                    int y2 = (int) fromFixedPoint(multiplyFixedPoints( (newNormalizedY + toFixedPoint(1.0)), (height / 2)));
+                    int y2 = (int) fromFixedPoint( multiplyFixedPoints(newNormalizedY + toFixedPoint(1.0), height / 2) );
 
-       				int currentPosition = fromFixedPoint(multiplyFixedPoints(currentY, width) + currentX);
+					// printf("%d: %f, %f\n", currentPosition, fromFixedPoint(newNormalizedX), 
+					// 	fromFixedPoint(newNormalizedY));
+
 					printf("%d: %d, %d\n", currentPosition,  x2, y2);
-
                     
                     // find (x2,y2) position from source pixels
                     int sourcePosition = y2 * ((int) fromFixedPoint(width)) + x2; //, fromFixedPoint(multiplyFixedPoints(y2, width) + x2);
                     // make sure that position stays within arrays
-                    if (sourcePosition >= 0 && sourcePosition < fromFixedPoint(multiplyFixedPoints(width, height))) {
+                    if (sourcePosition >= 0 && sourcePosition < imageSize) {
                     	int destinationPosition = (int) fromFixedPoint(multiplyFixedPoints(currentY, width) + currentX);
 
                     	// printf("%d -> %d\n", sourcePosition, destinationPosition);

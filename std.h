@@ -5,19 +5,12 @@
 
 #define SHIFT_AMOUNT 16 // 2^16 = 65536
 #define SHIFT_MASK ((1 << SHIFT_AMOUNT) - 1)
+#define PI 3.14
 // #define MULTIPLY_FP_RESOLUTION_BITS	15
 
-#define toFixedPoint(number) ((long) ( (((long) number) << SHIFT_AMOUNT) + (number - (long) number) * (1 << SHIFT_AMOUNT)))  
+// #define toFixedPoint(number) ((long) ( (((long) number) << SHIFT_AMOUNT) + (number - (long) number) * (1 << SHIFT_AMOUNT)))  
 
-// long toFixedPoint(float number) {
-// 	// Convert integer part
-// 	long fixedPointNumber = ((long) number) << SHIFT_AMOUNT;
-
-// 	// Convert fractional part
-// 	fixedPointNumber += (number - (long) number) * (1 << SHIFT_AMOUNT);
-
-// 	return fixedPointNumber;
-// }
+long toFixedPoint(float number);
 
 // float fromFixedPoint(long number);
 
