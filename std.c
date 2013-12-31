@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <math.h>
 #include "std.h"
 
 static long SQRT_LUT[9800];

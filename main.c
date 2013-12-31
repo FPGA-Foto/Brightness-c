@@ -47,8 +47,8 @@ int main(int argc, char *argv[]) {
             ((float) bitmapInfoHeader.biWidth / (float) bitmapInfoHeader.biHeight));
 
         // setBlur(bitmapData, 4, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
-        setFishEye(bitmapData, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
-        // setHue(bitmapData, hue, bitmapInfoHeader.biSizeImage);
+        // setFishEye(bitmapData, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
+        setHue(bitmapData, hue, bitmapInfoHeader.biSizeImage);
         // setSaturation(bitmapData, saturation, bitmapInfoHeader.biSizeImage);
         // setLightness(bitmapData, brightness, bitmapInfoHeader.biSizeImage);
 

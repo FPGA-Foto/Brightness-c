@@ -2,17 +2,13 @@
 #define STD_H
 
 #include <stdio.h>
+#include <math.h>
 
 #define SHIFT_AMOUNT 16 // 2^16 = 65536
 #define SHIFT_MASK ((1 << SHIFT_AMOUNT) - 1)
 #define PI 3.14
-// #define MULTIPLY_FP_RESOLUTION_BITS	15
-
-// #define toFixedPoint(number) ((long) ( (((long) number) << SHIFT_AMOUNT) + (number - (long) number) * (1 << SHIFT_AMOUNT)))  
 
 long toFixedPoint(float number);
-
-// float fromFixedPoint(long number);
 
 float fromFixedPoint(long number);
 
@@ -30,7 +26,6 @@ long divideFixedPoint(long a, long b);
 
 // 0.0033
 void generateLUT();
-
 
 long arctan2(long y, long x);
 

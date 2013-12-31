@@ -39,6 +39,8 @@ long * RGBtoHSL(int originalRed, int originalGreen, int originalBlue) {
     else {   
         lightness = (minColor + maxColor) / 2;     
         
+        // printf("maxColor: %ld, minColor: %ld\n", maxColor, minColor);
+
         if (lightness < toFixedPoint(0.5)) saturation = divideFixedPoint(maxColor - minColor, maxColor + minColor);
         else saturation = divideFixedPoint(maxColor - minColor, toFixedPoint(2.0) - maxColor - minColor);
         
@@ -73,48 +75,79 @@ int * HSLtoRGB(long hue, long saturation, long lightness) {
     temp1 = 2 * lightness - temp2;
     tempRed = hue + toFixedPoint(1.0) / 3;
     
-    if (tempRed > 1) tempRed = tempRed - toFixedPoint(1.0);
+    if (tempRed > toFixedPoint(1.0)) tempRed = tempRed - toFixedPoint(1.0);
     
     tempGreen = hue;
     tempBlue = hue - toFixedPoint(1.0) / 3.0;
     
-    if (tempBlue < 0) tempBlue + toFixedPoint(1.0); 
+    if (tempBlue < 0) tempBlue = tempBlue + toFixedPoint(1.0); 
     
     //Red     
-    if (tempRed < toFixedPoint(1.0) / 6) red = multiplyFixedPoints(temp1 + (temp2 - temp1) * 6, tempRed);      
+    if (tempRed < toFixedPoint(1.0) / 6) red = temp1 + multiplyFixedPoints((temp2 - temp1) * 6, tempRed);      
     else if (tempRed < toFixedPoint(0.5)) red = temp2;
     else if (tempRed < toFixedPoint(2.0) / 3) red = temp1 + multiplyFixedPoints(temp2 - temp1, toFixedPoint(2.0) / 3 - tempRed) * 6;
     else red = temp1;
     
     //Green       
-    if (tempGreen < toFixedPoint(1.0) / 6) green = multiplyFixedPoints(temp1 + (temp2 - temp1) * 6, tempGreen);    
+    if (tempGreen < toFixedPoint(1.0) / 6) green = temp1 + multiplyFixedPoints((temp2 - temp1) * 6, tempGreen);    
     else if (tempGreen < toFixedPoint(0.5)) green = temp2;
     else if (tempGreen < toFixedPoint(2.0) / 3) green = temp1 + multiplyFixedPoints(temp2 - temp1, toFixedPoint(2.0) / 3 - tempGreen) * 6;
     else green = temp1;
     
     //Blue    
-    if (tempBlue < toFixedPoint(1.0) / 6) blue = multiplyFixedPoints(temp1 + (temp2 - temp1) * 6, tempBlue);   
+    if (tempBlue < toFixedPoint(1.0) / 6) blue = temp1 + multiplyFixedPoints((temp2 - temp1) * 6, tempBlue);   
     else if (tempBlue < toFixedPoint(0.5)) blue = temp2;
     else if (tempBlue < toFixedPoint(2.0) / 3) blue = temp1 + multiplyFixedPoints(temp2 - temp1, toFixedPoint(2.0) / 3 - tempBlue) * 6;    
     else blue = temp1;
 
-    rgb[0] = red < toFixedPoint(1.0) ? fromFixedPoint(red * 255.0) : 255;
-    rgb[1] = green < toFixedPoint(1.0) ? fromFixedPoint(green * 255.0) : 255;
-    rgb[2] = blue < toFixedPoint(1.0) ? fromFixedPoint(blue * 255.0) : 255;
+    rgb[0] = red < toFixedPoint(1.0) ? fromFixedPoint(red * 255) : 255;
+    rgb[1] = green < toFixedPoint(1.0) ? fromFixedPoint(green * 255) : 255;
+    rgb[2] = blue < toFixedPoint(1.0) ? fromFixedPoint(blue * 255) : 255;
 
     return rgb;
 }
 
 
 // Hue values: 0.0 - 2.0 
+// void setHue(Pixel * data, float value, int imageSize) {
+//     // value /= 100;
+
+//     int i;
+//     for (i = 0; i < imageSize; i += 1) {
+
+//         printf("%d, %d, %d\n", data[i].red, data[i].green, data[i].blue);
+
+//         // Convert pixel to HSL
+//         // long * hsl = RGBtoHSL(data[i].red, data[i].green, data[i].blue);
+
+//         // // Apply value
+//         // // printf("%f\n", hsl[0]);
+//         // // printf("%f\n", fromFixedPoint(hsl[0]));
+//         // // hsl[0] *= value;
+//         // // printf("%f\n", fromFixedPoint(hsl[0]));
+
+//         // // Convert back to RGB
+//         // int * rgb = HSLtoRGB(hsl[0], hsl[1], hsl[2]);
+
+//         // // printf("first: %d\n", data[i].red);
+//         // data[i].red = rgb[0];
+//         // data[i].green = rgb[1];
+//         // data[i].blue = rgb[2];
+//         // // printf("after: %d\n", data->red);
+
+//         // free(rgb);
+//     }
+// }
+
 void setHue(unsigned char * data, float value, int imageSize) {
     // value /= 100;
 
     int i;
     for (i = 0; i < imageSize; i += 3) {
+        // printf("%d, %d, %d\n", data[i], data[i+1], data[i+2]);
 
         // Convert pixel to HSL
-        float * hsl = RGBtoHSL(data[i], data[i+1], data[i+2]);
+        long * hsl = RGBtoHSL(data[i], data[i+1], data[i+2]);
 
         // Apply value
         // printf("%f\n", hsl[0]);
@@ -139,7 +172,7 @@ void setSaturation(unsigned char * data, float value, int imageSize) {
     for (i = 0; i < imageSize; i += 3) {
 
         // Convert pixel to HSL
-        float * hsl = RGBtoHSL(data[i], data[i+1], data[i+2]);
+        long * hsl = RGBtoHSL(data[i], data[i+1], data[i+2]);
 
         // Apply value
         if (hsl[1] * value > 1.0) {
@@ -168,7 +201,7 @@ void setLightness(unsigned char * data, float value, int imageSize) {
     for (i = 0; i < imageSize; i += 3) {
 
         // Convert pixel to HSL
-        float * hsl = RGBtoHSL(data[i], data[i+1], data[i+2]);
+        long * hsl = RGBtoHSL(data[i], data[i+1], data[i+2]);
 
         // Apply value
         hsl[2] *= value;

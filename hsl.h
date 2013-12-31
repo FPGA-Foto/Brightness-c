@@ -3,6 +3,8 @@
 
 #include <stdlib.h>
 #include <math.h>
+#include "std.h"
+#include "bitmap.h"
 
 #ifndef max
     #define max( a, b ) ( ((a) > (b)) ? (a) : (b) )
@@ -14,9 +16,9 @@
 
 void setContrast(unsigned char * data, int value, int imageSize);
 
-float * RGBtoHSL(int red_ptr, int green_ptr, int blue_ptr);
+long * RGBtoHSL(int originalRed, int originalGreen, int originalBlue);
 
-int * HSLtoRGB(float hue, float saturation, float lightness);
+int * HSLtoRGB(long hue, long saturation, long lightness);
 
 void setHue(unsigned char * data, float value, int imageSize);
 
