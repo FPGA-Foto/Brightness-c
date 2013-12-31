@@ -18,7 +18,7 @@ void setContrast(unsigned char * data, int value, int imageSize) {
     }
 }
 
-long * fixedRGBtoHSL(int originalRed, int originalGreen, int originalBlue) { 
+long * RGBtoHSL(int originalRed, int originalGreen, int originalBlue) { 
     long red, green, blue, hue, saturation, lightness; //this function works with floats between 0 and 1 
     red = toFixedPoint(originalRed) / 255;
     green = toFixedPoint(originalGreen) / 255;
@@ -60,47 +60,47 @@ long * fixedRGBtoHSL(int originalRed, int originalGreen, int originalBlue) {
     return hsl;
 }
 
-int * HSLtoRGB(float hue, float saturation, float lightness) {
+int * HSLtoRGB(long hue, long saturation, long lightness) {
 
-    float red, green, blue; //this function works with floats between 0 and 1
-    float temp1, temp2, tempRed, tempGreen, tempBlue;
+    long red, green, blue; //this function works with floats between 0 and 1
+    long temp1, temp2, tempRed, tempGreen, tempBlue;
     int * rgb = malloc(3 * sizeof(int));
 
 
-    if (lightness < 0.5) temp2 = lightness * (1 + saturation);      
-    else temp2 = (lightness + saturation) - (lightness * saturation);     
+    if (lightness < toFixedPoint(0.5)) temp2 = multiplyFixedPoints(lightness, toFixedPoint(1.0) + saturation);      
+    else temp2 = (lightness + saturation) - multiplyFixedPoints(lightness, saturation);     
     
-    temp1 = 2 * lightness - temp2;    
-    tempRed = hue + 1.0 / 3.0;    
+    temp1 = 2 * lightness - temp2;
+    tempRed = hue + toFixedPoint(1.0) / 3;
     
-    if (tempRed > 1) tempRed--;
+    if (tempRed > 1) tempRed = tempRed - toFixedPoint(1.0);
     
-    tempGreen = hue;     
-    tempBlue = hue - 1.0 / 3.0;
+    tempGreen = hue;
+    tempBlue = hue - toFixedPoint(1.0) / 3.0;
     
-    if (tempBlue < 0) tempBlue++; 
+    if (tempBlue < 0) tempBlue + toFixedPoint(1.0); 
     
     //Red     
-    if (tempRed < 1.0 / 6.0) red = temp1 + (temp2 - temp1) * 6.0 * tempRed;      
-    else if (tempRed < 0.5) red = temp2;   
-    else if (tempRed < 2.0 / 3.0) red = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempRed) * 6.0;
-    else red = temp1; 
+    if (tempRed < toFixedPoint(1.0) / 6) red = multiplyFixedPoints(temp1 + (temp2 - temp1) * 6, tempRed);      
+    else if (tempRed < toFixedPoint(0.5)) red = temp2;
+    else if (tempRed < toFixedPoint(2.0) / 3) red = temp1 + multiplyFixedPoints(temp2 - temp1, toFixedPoint(2.0) / 3 - tempRed) * 6;
+    else red = temp1;
     
     //Green       
-    if (tempGreen < 1.0 / 6.0) green = temp1 + (temp2 - temp1) * 6.0 * tempGreen;    
-    else if (tempGreen < 0.5) green = temp2;
-    else if (tempGreen < 2.0 / 3.0) green = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempGreen) * 6.0;
-    else green = temp1; 
+    if (tempGreen < toFixedPoint(1.0) / 6) green = multiplyFixedPoints(temp1 + (temp2 - temp1) * 6, tempGreen);    
+    else if (tempGreen < toFixedPoint(0.5)) green = temp2;
+    else if (tempGreen < toFixedPoint(2.0) / 3) green = temp1 + multiplyFixedPoints(temp2 - temp1, toFixedPoint(2.0) / 3 - tempGreen) * 6;
+    else green = temp1;
     
     //Blue    
-    if (tempBlue < 1.0 / 6.0) blue = temp1 + (temp2 - temp1) * 6.0 * tempBlue;   
-    else if (tempBlue < 0.5) blue = temp2; 
-    else if (tempBlue < 2.0 / 3.0) blue = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - tempBlue) * 6.0;    
+    if (tempBlue < toFixedPoint(1.0) / 6) blue = multiplyFixedPoints(temp1 + (temp2 - temp1) * 6, tempBlue);   
+    else if (tempBlue < toFixedPoint(0.5)) blue = temp2;
+    else if (tempBlue < toFixedPoint(2.0) / 3) blue = temp1 + multiplyFixedPoints(temp2 - temp1, toFixedPoint(2.0) / 3 - tempBlue) * 6;    
     else blue = temp1;
 
-    rgb[0] = red < 1.0 ? roundf(red * 255.0) : 255;
-    rgb[1] = green < 1.0 ? roundf(green * 255.0) : 255;
-    rgb[2] = blue < 1.0 ? roundf(blue * 255.0) : 255;
+    rgb[0] = red < toFixedPoint(1.0) ? fromFixedPoint(red * 255.0) : 255;
+    rgb[1] = green < toFixedPoint(1.0) ? fromFixedPoint(green * 255.0) : 255;
+    rgb[2] = blue < toFixedPoint(1.0) ? fromFixedPoint(blue * 255.0) : 255;
 
     return rgb;
 }
