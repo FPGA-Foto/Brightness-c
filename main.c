@@ -49,8 +49,8 @@ int main(int argc, char *argv[]) {
         // setBlur(bitmapData, 4, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
         // setFishEye(bitmapData, bitmapInfoHeader.biSizeImage, bitmapInfoHeader.biWidth, bitmapInfoHeader.biHeight);
         setHue(bitmapData, hue, bitmapInfoHeader.biSizeImage);
-        // setSaturation(bitmapData, saturation, bitmapInfoHeader.biSizeImage);
-        // setLightness(bitmapData, brightness, bitmapInfoHeader.biSizeImage);
+        setSaturation(bitmapData, saturation, bitmapInfoHeader.biSizeImage);
+        setLightness(bitmapData, brightness, bitmapInfoHeader.biSizeImage);
 
         FILE * writeFile = fopen("out.bmp", "wb");
 

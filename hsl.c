@@ -150,7 +150,6 @@ void setHue(unsigned char * data, float value, int imageSize) {
         long * hsl = RGBtoHSL(data[i], data[i+1], data[i+2]);
 
         // Apply value
-        // printf("%f\n", hsl[0]);
         hsl[0] *= value;
 
         // Convert back to RGB
@@ -175,10 +174,10 @@ void setSaturation(unsigned char * data, float value, int imageSize) {
         long * hsl = RGBtoHSL(data[i], data[i+1], data[i+2]);
 
         // Apply value
-        if (hsl[1] * value > 1.0) {
-            hsl[1] = 1.0;
-        } else if (hsl[1] * value < 0.0) {
-            hsl[1] = 0.0;
+        if (hsl[1] * value > toFixedPoint(1.0)) {
+            hsl[1] = toFixedPoint(1.0);
+        } else if (hsl[1] * value < 0) {
+            hsl[1] = 0;
         }
         else {
             hsl[1] *= value;
