@@ -69,13 +69,13 @@ void generateLUT() {
 	}
 
 	// Generate cos LUT
-	float radicand = -3;
+	float radicand = -4;
 	for (int i = 0; i < 4900; i++, radicand += 0.0033) {
 		COS_LUT[i] = toFixedPoint(cos(radicand));
 	}
 
 	// Generate sin LUT
-	radicand = -3;
+	radicand = -4;
 	for (int i = 0; i < 4900; i++, radicand += 0.0033) {
 		SIN_LUT[i] = toFixedPoint(sin(radicand));
 	}
@@ -113,7 +113,7 @@ long arctan2(long y, long x) {
 			multiplyFixedPoints(fixedFactor2, r) + (3*c1);
 	}
 
-	return y > 0 ? angle : -angle;
+	return y >= 0 ? angle : -angle;
 }
 
 long fixedAbs(long number) {
@@ -126,13 +126,13 @@ long fixedSqrt(long radicand) {
 }
 
 long fixedCos(long radicand) {
-	long min = toFixedPoint(-3), step = toFixedPoint(0.0033);
+	long min = toFixedPoint(-4), step = toFixedPoint(0.0033);
 	int index = (int) fromFixedPoint(fixedAbs(divideFixedPoint(min - radicand, step)));
 	return COS_LUT[index];
 }
 
 long fixedSin(long radicand) {
-	long min = toFixedPoint(-3), step = toFixedPoint(0.0033);
+	long min = toFixedPoint(-4), step = toFixedPoint(0.0033);
 	int index = (int) fromFixedPoint(fixedAbs(divideFixedPoint(min - radicand, step)));
 	return SIN_LUT[index];
 }
