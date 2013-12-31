@@ -18,42 +18,44 @@ void setContrast(unsigned char * data, int value, int imageSize) {
     }
 }
 
-float * RGBtoHSL(int red_ptr, int green_ptr, int blue_ptr) { 
-    float red, green, blue, hue, saturation, lightness; //this function works with floats between 0 and 1 
-    red = ((float) red_ptr) / 255.0f; 
-    green = ((float) green_ptr) / 255.0f; 
-    blue = ((float) blue_ptr) / 255.0f;
+long * fixedRGBtoHSL(int originalRed, int originalGreen, int originalBlue) { 
+    long red, green, blue, hue, saturation, lightness; //this function works with floats between 0 and 1 
+    red = toFixedPoint(originalRed) / 255;
+    green = toFixedPoint(originalGreen) / 255;
+    blue = toFixedPoint(originalBlue) / 255;
 
     // printf("%f, %f, %f\n", red, green, blue);
 
-    float maxColor = max(red, max(green, blue)); 
-    float minColor = min(red, min(green, blue));
+    long maxColor = max(red, max(green, blue)); 
+    long minColor = min(red, min(green, blue));
 
-    //Red == Green == Blue, so it'saturation a shade of gray
+    //Red == Green == Blue, so it's a shade of gray
     if (red == green && green == blue) {   
-        hue = 0.0; //it doesn't matter what value it has       
-        saturation = 0.0;       
+        hue = 0; //it doesn't matter what value it has       
+        saturation = 0;       
         lightness = red; //doesn't matter if you pick red, green, or blue   
     }
 
     else {   
         lightness = (minColor + maxColor) / 2;     
         
-        if (lightness < 0.5) saturation = (maxColor - minColor) / (maxColor + minColor);
-        else saturation = (maxColor - minColor) / (2.0 - maxColor - minColor);
+        if (lightness < toFixedPoint(0.5)) saturation = divideFixedPoint(maxColor - minColor, maxColor + minColor);
+        else saturation = divideFixedPoint(maxColor - minColor, toFixedPoint(2.0) - maxColor - minColor);
         
-        if (red == maxColor) hue = (green - blue) / (maxColor - minColor);
-        else if (green == maxColor) hue = 2.0 + (blue - red) / (maxColor - minColor);
-        else hue = 4.0 + (red - green) / (maxColor - minColor);
+        if (red == maxColor) hue = divideFixedPoint(green - blue, maxColor - minColor);
+        else if (green == maxColor) hue = toFixedPoint(2.0) + divideFixedPoint(blue - red, maxColor - minColor);
+        else hue = toFixedPoint(4.0) + divideFixedPoint(red - green, maxColor - minColor);
         
         hue /= 6; //to bring it to a number between 0 and 1
-        if (hue < 0) hue++;
+        // printf("%f\n", fromFixedPoint(hue));
+        if (hue < 0)  hue = hue + toFixedPoint(1.0);
+
     }
 
-    float * hsl = malloc(3 * sizeof(float));
-    hsl[0] = (hue);
-    hsl[1] = (saturation);
-    hsl[2] = (lightness);
+    long * hsl = malloc(3 * sizeof(long));
+    hsl[0] = hue;
+    hsl[1] = saturation;
+    hsl[2] = lightness;
     
     return hsl;
 }
