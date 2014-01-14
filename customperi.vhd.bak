@@ -1,0 +1,72 @@
+-- HSB_PERIP.vhd
+
+library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+use IEEE.std_logic_unsigned.ALL;
+	
+library std;
+use std.standard.all;
+use ieee.fixed_pkg.all;
+-----------------------
+
+entity HSB is
+	port (
+		clk			: in  std_logic;
+		imageWidth	: in std_logic_vector(8 downto 0);
+		imageHeight	: in std_logic_vector(8 downto 0);
+		x				: in std_logic_vector(8 downto 0);
+		y				: in std_logic_vector(8 downto 0)
+	);
+end entity HSB;
+
+architecture HSB_PERIP of HSB is
+	signal STATUS	 	: std_logic_vector(7 downto 0) := "00000000";
+	SIGNAL NXTSTATUS 	: std_logic_vector(7 downto 0) := "00000000";
+	
+	signal x2			: std_logic_vector(7 downto 0) := "00000000";	
+	signal y2			: std_logic_vector(7 downto 0) := "00000000";
+begin
+
+	process(clk)
+	begin
+		
+		-- When the peripheral is reset
+		if (rising_edge(clk)) then
+			STATUS <= NXTSTATUS;
+		end if;
+	end process;
+	
+	process(clk, STATUS, imageWidth, imageHeight, x, y)
+		variable fixedX				: sfixed(8 downto -8);	
+		variable fixedY				: sfixed(8 downto -8);
+		variable fixedImageWidth	: sfixed(8 downto -8);	
+		variable fixedImageHeight	: sfixed(8 downto -8);	
+		variable yFactor				: sfixed(8 downto -8);
+		variable yOffset				: sfixed(8 downto -8);
+		variable normalizedY			: sfixed(8 downto -8);
+		variable normalizedY2		: sfixed(8 downto -8);
+	begin
+		if (rising_edge(clk)) then
+			IF STATUS = "00000000" THEN
+				
+				fixedX 				:= to_sfixed(signed(x), fixedX);
+				x2 <= to_std_logic_vector(resize(fixedX, 7, 0));
+				fixedY 				:= to_sfixed(signed(y), fixedY);
+				fixedImageWidth 	:= to_sfixed(signed(imageWidth), fixedImageWidth);
+				fixedImageHeight 	:= to_sfixed(signed(imageHeight), fixedImageWidth);
+				
+				yFactor 				:= to_sfixed(2.0, yFactor);
+				yOffset 				:= to_sfixed(1.0, yOffset);
+				
+				normalizedY 		:= resize(yFactor * fixedY * fixedImageHeight - yOffset, normalizedY);
+				normalizedY2 		:= resize(normalizedY * normalizedY, normalizedY);
+				
+				--y2 <= to_std_logic_vector(resize(normalizedY2, 7, 0));
+				
+				NXTSTATUS <= "00000001";
+			END IF;
+		end if;
+	end process;
+
+end architecture HSB_PERIP; -- of example_peripheral
