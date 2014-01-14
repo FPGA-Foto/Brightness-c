@@ -26,9 +26,9 @@ architecture HSB_PERIP of HSB is
 	signal STATUS	 	: std_logic_vector(7 downto 0) 	:= "00000000";
 	SIGNAL NXTSTATUS 	: std_logic_vector(7 downto 0) 	:= "00000000";
 	
-	signal x2					: std_logic_vector(8 downto 0)	:= "000000000";
-	signal y2					: std_logic_vector(8 downto 0)	:= "000000000";
-	signal output				: sfixed(7 downto -8)	:= "0000000000000000";
+	-- return this
+	signal newPosition		: std_logic_vector(8 downto 0)	:= "000000000";
+	--signal output				: sfixed(7 downto -8)	:= "0000000000000000";
 	--signal fixedX				: sfixed(7 downto -8)	:= "0000000000000000";	
 	--signal fixedY				: sfixed(7 downto -8)	:= "0000000000000000";
 	--signal fixedImageWidth	: sfixed(7 downto -8)	:= "0000000000000000";	
@@ -49,12 +49,35 @@ begin
 	end process;
 	
 	process(clk, STATUS, imageWidth, imageHeight, x, y)
+		-- Calculate square root
 		function fixedSqrt(radicand : sfixed)
 			return sfixed is
 		begin
-			return to_sfixed(sqrt( real(to_real(radicand)) ), radicand);
+			return to_sfixed(sqrt( to_real(radicand) ), radicand);
 		end fixedSqrt;
+		
+		-- Calculate arc tan
+		function fixedAtan2(first : sfixed; second : sfixed)
+			return sfixed is
+		begin
+			return to_sfixed(arctan(to_real(first), to_real(second)), first);
+		end fixedAtan2;
+		
+		-- Calculate cosine
+		function fixedCos(number : sfixed)
+			return sfixed is
+		begin
+			return to_sfixed(cos(to_real(number)), number);
+		end fixedCos;
+		
+		-- Calculate sine
+		function fixedSin(number : sfixed)
+			return sfixed is
+		begin
+			return to_sfixed(sin(to_real(number)), number);
+		end fixedSin;
 	
+		-- Variables used
 		variable fixedOne				: sfixed(7 downto -8);
 		variable fixedX				: sfixed(7 downto -8);	
 		variable fixedY				: sfixed(7 downto -8);
@@ -78,6 +101,9 @@ begin
 		variable angleTheta			: sfixed(7 downto -8);
 		variable newNormalizedX		: sfixed(7 downto -8);
 		variable newNormalizedY		: sfixed(7 downto -8);
+		
+		variable x2						: integer := 0;
+		variable y2						: integer := 0;
 	begin
 		if (rising_edge(clk)) then
 			IF STATUS = "00000000" THEN
@@ -100,23 +126,37 @@ begin
 				normalizedX2 		:= resize(normalizedX * normalizedX, normalizedX2);
 				
 				distanceRadicand 	:= resize(normalizedX2 + normalizedY2, distanceToCenter);
-				-- Convert to REAL, calculate sqrt and convert back to SFIXED
-				distanceToCenter 	:= fixedSqrt(distanceRadicand);
-				
-				--x2 <= distanceToCenter;
-				--y2 <= normalizedX2;
-				
-				if (distanceToCenter > 0 and distanceToCenter <= to_sfixed(1.0, distanceToCenter))
+
+				--distanceToCenter 	:= fixedSqrt(distanceRadicand);
+				distanceToCenter 	:= to_sfixed(0.5, fixedOne);
+				if (distanceToCenter > 0 and distanceToCenter <= fixedOne)
 				then
-					newDistanceToCenter := distanceToCenter + (fixedOne - 
-						fixedSqrt( resize(distanceToCenter * distanceToCenter, fixedOne);
+					newDistanceToCenter := resize(
+						(distanceToCenter + (fixedOne - fixedSqrt(fixedOne - distanceToCenter * distanceToCenter))) / 2
+					, fixedOne);
+					
+					if (newDistanceToCenter <= fixedOne)
+					then
+						angleTheta := fixedAtan2(normalizedY, normalizedX);
+						
+						newNormalizedX := resize(newDistanceToCenter * fixedCos(angleTheta), newNormalizedX);
+						newNormalizedY := resize(newDistanceToCenter * fixedSin(angleTheta), newNormalizedX);
+						--((newNormalizedX + 1.0) * (width / 2.0))
+						x2 := (to_integer(
+							resize((newNormalizedX + fixedOne) * (fixedImageWidth / to_sfixed(2.0, fixedOne)), fixedOne)
+						));
+						
+						y2 := (to_integer(
+							resize((newNormalizedY + fixedOne) * (fixedImageHeight / to_sfixed(2.0, fixedOne)), fixedOne)
+						));						
+						newPosition <= std_logic_vector(to_signed(y2 * to_integer(signed(imageWidth)) + x2, newPosition'length)); 
+					end if;
 				else
-					x2 <= "000000000";
-					y2 <= "000000000";
+					newPosition <= "000000000";
 				end if;
 				
 				-- Convert to REAL, calculate atan2 and convert back
-				angleTheta 		:= to_sfixed(arctan(real(5), real(6)), output);
+				--angleTheta 		:= to_sfixed(arctan(real(5.5), real(6.1)), output);
 				--newNormalizedX := resize()
 				
 				NXTSTATUS <= "00000001";

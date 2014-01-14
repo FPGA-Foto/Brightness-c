@@ -9,17 +9,17 @@ Z0 DPx4 ieee 11 numeric_std 0 22 O3PF8EB`?j9=z7KT`fn941
 Z1 DPx3 std 6 textio 0 22 5>J:;AW>W0[[dW0I6EN1Q0
 Z2 DPx4 ieee 14 std_logic_1164 0 22 5=aWaoGZSMWIcH0i^f`XF1
 Z3 dD:\Dropbox\HWP01\simulation
-Z4 8D:/Dropbox/HWP01/simulation/stateTest.vhd
-Z5 FD:/Dropbox/HWP01/simulation/stateTest.vhd
+8D:/Dropbox/HWP01/simulation/stateTest.vhd
+FD:/Dropbox/HWP01/simulation/stateTest.vhd
 l0
 L7
 VfNoKTDW8<<^]ez8H>4On40
-Z6 OV;C;10.1d;51
+Z4 OV;C;10.1d;51
 32
-Z7 o-work work -2002 -explicit -O0
-Z8 tExplicit 1
-Z9 !s90 -reportprogress|300|-work|work|-2002|-explicit|D:/Dropbox/HWP01/simulation/stateTest.vhd|
-Z10 !s107 D:/Dropbox/HWP01/simulation/stateTest.vhd|
+Z5 o-work work -2002 -explicit -O0
+Z6 tExplicit 1
+!s90 -reportprogress|300|-work|work|-2002|-explicit|D:/Dropbox/HWP01/simulation/stateTest.vhd|
+!s107 D:/Dropbox/HWP01/simulation/stateTest.vhd|
 !s100 KcR91<4Z>jfEA5TT3TEh62
 !i10b 1
 !s108 1389636538.613000
@@ -31,119 +31,119 @@ FD:/Dropbox/HWP01/simulation/fixed point/modelsim/env_c.vhdl
 l0
 L1
 VS[UkN@HaK32hL8MbS<6YH3
-R6
+R4
 32
 b1
-R7
-R8
+R5
+R6
 !s100 2?fg=6GX3[LgQlkAIm`h33
 !i10b 1
 !s108 1389637686.672000
 !s90 -reportprogress|300|-work|work|-2002|-explicit|D:/Dropbox/HWP01/simulation/fixed point/modelsim/env_c.vhdl|
 !s107 D:/Dropbox/HWP01/simulation/fixed point/modelsim/env_c.vhdl|
 Efisheyesim
-Z11 w1389646449
-Z12 DPx4 ieee 11 numeric_std 0 22 O3PF8EB`?j9=z7KT`fn941
+Z7 w1389729796
+Z8 DPx4 ieee 11 numeric_std 0 22 O3PF8EB`?j9=z7KT`fn941
 R1
 R2
-R3
-R4
-R5
+Z9 dC:\Users\Marcelo Dias Avelino\Documents\GitHub\Brightness-c
+Z10 8C:/Users/Marcelo Dias Avelino/Documents/GitHub/Brightness-c/stateTest.vhd
+Z11 FC:/Users/Marcelo Dias Avelino/Documents/GitHub/Brightness-c/stateTest.vhd
 l0
 L7
 V=TA778G:UPX`2i4Td94V30
-!s100 4M@K;micP::MF]LnGF2iC0
-R6
+R4
 32
+Z12 !s108 1389735406.879000
+Z13 !s90 -reportprogress|300|-work|work|-2002|-explicit|C:/Users/Marcelo Dias Avelino/Documents/GitHub/Brightness-c/stateTest.vhd|
+Z14 !s107 C:/Users/Marcelo Dias Avelino/Documents/GitHub/Brightness-c/stateTest.vhd|
+R5
+R6
+!s100 4M@K;micP::MF]LnGF2iC0
 !i10b 1
-Z13 !s108 1389654598.477000
-R9
-Z14 !s107 D:/Dropbox/HWP01/simulation/stateTest.vhd|
-R7
-R8
 Atestbench
-R12
+R8
 R1
 R2
-Z15 DEx4 work 10 fisheyesim 0 22 =TA778G:UPX`2i4Td94V30
+DEx4 work 10 fisheyesim 0 22 =TA778G:UPX`2i4Td94V30
 l35
 L11
-Z16 VKz2H5ARCJR5GbKNbiL8Di3
-Z17 !s100 z_gQM?^f7OAY_0aDYZXMz1
-R6
+VKz2H5ARCJR5GbKNbiL8Di3
+!s100 z_gQM?^f7OAY_0aDYZXMz1
+R4
 32
-!i10b 1
+R12
 R13
-R9
 R14
-R7
-R8
+R5
+R6
+!i10b 1
 Pfixed_float_types
-Z18 w1251363204
+Z15 w1251363204
 R3
 8D:/Dropbox/HWP01/simulation/fixed_point/fixed_float_types_c.vhdl
 FD:/Dropbox/HWP01/simulation/fixed_point/fixed_float_types_c.vhdl
 l0
 L16
 VW4ATgTeAlJQj3_40TOTBN3
-R6
+R4
 32
-R7
-R8
+R5
+R6
 !s100 K7S6f`lOn:f8[LPBGH_0k0
 !i10b 1
 !s108 1389639955.633000
 !s90 -reportprogress|300|-work|work|-2002|-explicit|D:/Dropbox/HWP01/simulation/fixed_point/fixed_float_types_c.vhdl|
 !s107 D:/Dropbox/HWP01/simulation/fixed_point/fixed_float_types_c.vhdl|
 Ehsb
-Z19 w1389654306
-Z20 DPx4 ieee 17 fixed_float_types 0 22 =0;62o;ECZzWjJIh=Ib]f2
-Z21 DPx4 ieee 17 fixed_generic_pkg 0 22 dnEG0BMWbGEXn@TT=Wh_c2
-Z22 DPx4 ieee 9 fixed_pkg 0 22 _YS>daVNM>A@gMgm;Gg7k3
-Z23 DPx4 ieee 9 math_real 0 22 :iME`dTX54_U49lJNF5JI3
-Z24 DPx4 ieee 15 std_logic_arith 0 22 4`Y?g_lkdn;7UL9IiJck01
-Z25 DPx4 ieee 18 std_logic_unsigned 0 22 RYmj;=TK`k=k>D@Cz`zoB3
-R12
+Z16 w1389735404
+Z17 DPx4 ieee 17 fixed_float_types 0 22 =0;62o;ECZzWjJIh=Ib]f2
+Z18 DPx4 ieee 17 fixed_generic_pkg 0 22 dnEG0BMWbGEXn@TT=Wh_c2
+Z19 DPx4 ieee 9 fixed_pkg 0 22 _YS>daVNM>A@gMgm;Gg7k3
+Z20 DPx4 ieee 9 math_real 0 22 :iME`dTX54_U49lJNF5JI3
+Z21 DPx4 ieee 15 std_logic_arith 0 22 4`Y?g_lkdn;7UL9IiJck01
+Z22 DPx4 ieee 18 std_logic_unsigned 0 22 RYmj;=TK`k=k>D@Cz`zoB3
+R8
 R1
 R2
-R3
-Z26 8D:/Dropbox/HWP01/simulation/customperi.vhd
-Z27 FD:/Dropbox/HWP01/simulation/customperi.vhd
+R9
+Z23 8C:/Users/Marcelo Dias Avelino/Documents/GitHub/Brightness-c/customperi.vhd
+Z24 FC:/Users/Marcelo Dias Avelino/Documents/GitHub/Brightness-c/customperi.vhd
 l0
 L15
 VM<U;P3Eb>HNiGmkCk1QDZ1
-R6
-32
-Z28 !s90 -reportprogress|300|-work|work|-2002|-explicit|D:/Dropbox/HWP01/simulation/customperi.vhd|
-R7
-R8
 !s100 56[6B05KG:jhdk]]@M>:E3
+R4
+32
 !i10b 1
-!s108 1389654598.319000
-Z29 !s107 D:/Dropbox/HWP01/simulation/customperi.vhd|
+Z25 !s108 1389735407.092000
+Z26 !s90 -reportprogress|300|-work|work|-2002|-explicit|C:/Users/Marcelo Dias Avelino/Documents/GitHub/Brightness-c/customperi.vhd|
+Z27 !s107 C:/Users/Marcelo Dias Avelino/Documents/GitHub/Brightness-c/customperi.vhd|
+R5
+R6
 Ahsb_perip
+R17
+R18
+R19
 R20
 R21
 R22
-R23
-R24
-R25
-R12
+R8
 R1
 R2
-DEx4 work 3 hsb 0 22 M<U;P3Eb>HNiGmkCk1QDZ1
-l40
+Z28 DEx4 work 3 hsb 0 22 M<U;P3Eb>HNiGmkCk1QDZ1
+l39
 L25
-VSTkZIokVCL6=:?AaD3jeF3
-R6
+V_AzL[IMlbZB@nC=l^TI9N3
+!s100 AdPLFO[c>><53mRH_8Cz40
+R4
 32
-R28
-R7
-R8
-!s108 1389654232.338000
-R29
-!s100 ObOZo9g[R4V`]X_Lhcn4o0
 !i10b 1
+R25
+R26
+R27
+R5
+R6
 Pmath_utility_pkg
 w1175688028
 R3
@@ -152,109 +152,109 @@ FD:/Dropbox/HWP01/simulation/fixed point/modelsim/math_utility_pkg_c.vhdl
 l0
 L20
 VX@IE<FB?Y^e66JA;6AW^f3
-R6
+R4
 32
-R7
-R8
+R5
+R6
 !s100 6PiW`ZHdDXA=cVdGEKb@f3
 !i10b 1
 !s108 1389637686.865000
 !s90 -reportprogress|300|-work|work|-2002|-explicit|D:/Dropbox/HWP01/simulation/fixed point/modelsim/math_utility_pkg_c.vhdl|
 !s107 D:/Dropbox/HWP01/simulation/fixed point/modelsim/math_utility_pkg_c.vhdl|
 Pnumeric_std_additions
-R12
+R8
 R1
 R2
-Z30 w1174465408
+Z29 w1174465408
 R3
-Z31 8D:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_additions.vhdl
-Z32 FD:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_additions.vhdl
+Z30 8D:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_additions.vhdl
+Z31 FD:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_additions.vhdl
 l0
 L19
 V0=z[eJ@kDP2=k98EjaTZM1
-R6
+R4
 32
 b1
-Z33 !s108 1389637686.930000
-Z34 !s90 -reportprogress|300|-work|work|-2002|-explicit|D:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_additions.vhdl|
-Z35 !s107 D:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_additions.vhdl|
-R7
-R8
+Z32 !s108 1389637686.930000
+Z33 !s90 -reportprogress|300|-work|work|-2002|-explicit|D:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_additions.vhdl|
+Z34 !s107 D:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_additions.vhdl|
+R5
+R6
 !s100 0j9P0Nk0h3SoIzai`_[S?3
 !i10b 1
 Bbody
-Z36 DPx4 work 21 numeric_std_additions 0 22 0=z[eJ@kDP2=k98EjaTZM1
-R12
+Z35 DPx4 work 21 numeric_std_additions 0 22 0=z[eJ@kDP2=k98EjaTZM1
+R8
 R1
 R2
 l0
 L479
 V707=zVOEldCMObRonMo3;3
-R6
+R4
 32
+R32
 R33
 R34
-R35
-R7
-R8
+R5
+R6
 nbody
 !s100 0J;bE?^iM1DF@be]XT6T:3
 !i10b 1
 Pnumeric_std_unsigned
 R1
 R2
-Z37 w1174465418
+Z36 w1174465418
 R3
-Z38 8D:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_unsigned_c.vhdl
-Z39 FD:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_unsigned_c.vhdl
+Z37 8D:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_unsigned_c.vhdl
+Z38 FD:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_unsigned_c.vhdl
 l0
 L50
 VNbfR1?]0ainhli:1hZG3?0
-R6
+R4
 32
 b1
-Z40 !s108 1389637687.201000
-Z41 !s90 -reportprogress|300|-work|work|-2002|-explicit|D:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_unsigned_c.vhdl|
-Z42 !s107 D:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_unsigned_c.vhdl|
-R7
-R8
+Z39 !s108 1389637687.201000
+Z40 !s90 -reportprogress|300|-work|work|-2002|-explicit|D:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_unsigned_c.vhdl|
+Z41 !s107 D:/Dropbox/HWP01/simulation/fixed point/modelsim/numeric_std_unsigned_c.vhdl|
+R5
+R6
 !s100 FBfhN=m__9ROkoALbNhL:3
 !i10b 1
 Bbody
 DPx4 work 20 numeric_std_unsigned 0 22 NbfR1?]0ainhli:1hZG3?0
-R36
-R12
+R35
+R8
 R1
 R2
 l0
 L1156
 Va;EOkMV8cMa^Y3eGSIc^[3
-R6
+R4
 32
+R39
 R40
 R41
-R42
-R7
-R8
+R5
+R6
 nbody
 !s100 3X2b2D=^QYA=RU9Y6f9J23
 !i10b 1
 Pstandard_additions
-Z43 w1174465426
+Z42 w1174465426
 R3
-Z44 8D:/Dropbox/HWP01/simulation/fixed point/modelsim/standard_additions_c.vhdl
-Z45 FD:/Dropbox/HWP01/simulation/fixed point/modelsim/standard_additions_c.vhdl
+Z43 8D:/Dropbox/HWP01/simulation/fixed point/modelsim/standard_additions_c.vhdl
+Z44 FD:/Dropbox/HWP01/simulation/fixed point/modelsim/standard_additions_c.vhdl
 l0
 L6
 VZAhKR>[5:a9_?YC1:ABIz3
-R6
+R4
 32
 b1
-Z46 !s108 1389637687.345000
-Z47 !s90 -reportprogress|300|-work|work|-2002|-explicit|D:/Dropbox/HWP01/simulation/fixed point/modelsim/standard_additions_c.vhdl|
-Z48 !s107 D:/Dropbox/HWP01/simulation/fixed point/modelsim/standard_additions_c.vhdl|
-R7
-R8
+Z45 !s108 1389637687.345000
+Z46 !s90 -reportprogress|300|-work|work|-2002|-explicit|D:/Dropbox/HWP01/simulation/fixed point/modelsim/standard_additions_c.vhdl|
+Z47 !s107 D:/Dropbox/HWP01/simulation/fixed point/modelsim/standard_additions_c.vhdl|
+R5
+R6
 !s100 bA2V^d^l[d;46JzQ`Q3I02
 !i10b 1
 Bbody
@@ -263,13 +263,13 @@ R1
 l0
 L273
 VcZBB`U84o?Hg[^86Ahd:h0
-R6
+R4
 32
+R45
 R46
 R47
-R48
-R7
-R8
+R5
+R6
 nbody
 !s100 6V]BO7JodD6A56;1YZKMG2
 !i10b 1
@@ -282,11 +282,11 @@ FD:/Dropbox/HWP01/simulation/fixed point/modelsim/standard_textio_additions_c.vh
 l0
 L12
 V9dVABSJlPUNHi:i4UlFWH0
-R6
+R4
 32
 b1
-R7
-R8
+R5
+R6
 !s100 <QJGP4ODM>QiQija4S[4;2
 !i10b 1
 !s108 1389637687.499000
@@ -295,21 +295,21 @@ R8
 Pstd_logic_1164_additions
 R1
 R2
-Z49 w1174465440
+Z48 w1174465440
 R3
-Z50 8D:/Dropbox/HWP01/simulation/fixed point/modelsim/std_logic_1164_additions.vhdl
-Z51 FD:/Dropbox/HWP01/simulation/fixed point/modelsim/std_logic_1164_additions.vhdl
+Z49 8D:/Dropbox/HWP01/simulation/fixed point/modelsim/std_logic_1164_additions.vhdl
+Z50 FD:/Dropbox/HWP01/simulation/fixed point/modelsim/std_logic_1164_additions.vhdl
 l0
 L15
 Vkfj0i;75Ok<o:fS9KDVL73
-R6
+R4
 32
 b1
-Z52 !s108 1389637687.588000
-Z53 !s90 -reportprogress|300|-work|work|-2002|-explicit|D:/Dropbox/HWP01/simulation/fixed point/modelsim/std_logic_1164_additions.vhdl|
-Z54 !s107 D:/Dropbox/HWP01/simulation/fixed point/modelsim/std_logic_1164_additions.vhdl|
-R7
-R8
+Z51 !s108 1389637687.588000
+Z52 !s90 -reportprogress|300|-work|work|-2002|-explicit|D:/Dropbox/HWP01/simulation/fixed point/modelsim/std_logic_1164_additions.vhdl|
+Z53 !s107 D:/Dropbox/HWP01/simulation/fixed point/modelsim/std_logic_1164_additions.vhdl|
+R5
+R6
 !s100 3zNE_jXR?7O[1`i^SSO4M2
 !i10b 1
 Bbody
@@ -319,45 +319,45 @@ R2
 l0
 L241
 V;]767ZB[nO8TmA`cB<7P91
-R6
+R4
 32
+R51
 R52
 R53
-R54
-R7
-R8
+R5
+R6
 nbody
 !s100 MHAo:JkKGM_C_7F`]gdDM0
 !i10b 1
 Etest_fixed_synth
-R18
+R15
 R3
 8D:/Dropbox/HWP01/simulation/fixed point/test_fixed_synth.vhdl
 FD:/Dropbox/HWP01/simulation/fixed point/test_fixed_synth.vhdl
 l0
 L9
 VPF6@JOK103ib?C``d30FW3
-R6
+R4
 32
-R7
-R8
+R5
+R6
 !s100 P_1m9M8oGGF0gI=V9m2JL1
 !i10b 1
 !s108 1389637686.494000
 !s90 -reportprogress|300|-work|work|-2002|-explicit|D:/Dropbox/HWP01/simulation/fixed point/test_fixed_synth.vhdl|
 !s107 D:/Dropbox/HWP01/simulation/fixed point/test_fixed_synth.vhdl|
 Etest_float_synth
-R18
+R15
 R3
 8D:/Dropbox/HWP01/simulation/fixed point/test_float_synth.vhdl
 FD:/Dropbox/HWP01/simulation/fixed point/test_float_synth.vhdl
 l0
 L5
 VKEiU8MIH6USHUS09LVUN92
-R6
+R4
 32
-R7
-R8
+R5
+R6
 !s100 hNH>NT8P3:0YN`fmLn_>93
 !i10b 1
 !s108 1389637686.589000

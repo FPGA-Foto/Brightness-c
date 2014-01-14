@@ -1,4 +1,31 @@
-D:/Dropbox/HWP01/simulation/stateTest.vhd {1 {vcom -work work -2002 -explicit D:/Dropbox/HWP01/simulation/stateTest.vhd
+D:/Dropbox/HWP01/simulation/customperi.vhd {0 {vcom -work work -2002 -explicit D:/Dropbox/HWP01/simulation/customperi.vhd
+Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Loading package MATH_REAL
+-- Loading package instance fixed_pkg
+-- Loading package fixed_float_types
+-- Loading package fixed_generic_pkg
+-- Loading package body fixed_generic_pkg
+-- Compiling entity HSB
+-- Compiling architecture HSB_PERIP of HSB
+** Error: D:/Dropbox/HWP01/simulation/customperi.vhd(112): near ";": expecting ')'
+** Error: D:/Dropbox/HWP01/simulation/customperi.vhd(127): VHDL Compiler exiting
+
+} {16.0 18.0} {}} {C:/Users/Marcelo Dias Avelino/Documents/GitHub/Brightness-c/stateTest.vhd} {1 {vcom -work work -2002 -explicit {C:/Users/Marcelo Dias Avelino/Documents/GitHub/Brightness-c/stateTest.vhd}
+Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity fisheyeSim
+-- Compiling architecture testbench of fisheyeSim
+
+} {} {}} D:/Dropbox/HWP01/simulation/stateTest.vhd {1 {vcom -work work -2002 -explicit D:/Dropbox/HWP01/simulation/stateTest.vhd
 Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
 -- Loading package STANDARD
 -- Loading package TEXTIO
